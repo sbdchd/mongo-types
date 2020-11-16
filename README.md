@@ -140,6 +140,8 @@ class User(Document):
     @queryset_manager
     def all_objects(self, queryset: QuerySet) -> QuerySet:
         return queryset
+
+maybe_user = User.all_objects.first()
 ```
 
 after:
@@ -173,6 +175,8 @@ class User(Document):
     @classmethod
     def all_objects(cls) -> UserQuerySet:
         return UserQuerySet(cls, cls._get_collection())
+
+maybe_user = User.all_objects().first()
 ```
 
 ## dev
