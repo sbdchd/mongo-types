@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 from typing import (
@@ -12,7 +11,6 @@ from typing import (
     List,
     Optional,
     Sequence,
-    Tuple,
     Type,
     TypeVar,
     Union,
@@ -22,10 +20,7 @@ from uuid import UUID
 
 from bson import ObjectId
 from mongoengine.base import BaseField
-
-from legacy.documents import Document
-
-UNSET = ()
+from mongoengine.document import Document
 
 T = TypeVar("T")
 
@@ -189,12 +184,10 @@ class DictField(BaseField, Generic[T]):
     ) -> Dict[str, List[str]]: ...
     def __getitem__(self, arg: Any) -> T: ...
 
-# TODO(sbdchd): make these not dataclasses
-@dataclass(frozen=True)
 class EmbeddedDocumentListField(BaseField, Generic[T]):
-    kind: Type[T]
-    required: bool = False
-    default: Optional[Any] = None
+    def __init__(
+        self, kind: Type[T], required: bool = False, default: Optional[Any] = None
+    ) -> None: ...
     def __getitem__(self, arg: Any) -> T: ...
     def __iter__(self) -> Iterator[T]: ...
     def __set__(self, instance: Any, value: List[T]) -> None: ...
@@ -286,32 +279,30 @@ class UUIDField(GenericField[UUID]):
 class ObjectIdField(GenericField[ObjectId]):
     pass
 
-@dataclass(frozen=True)
 class EmbeddedDocumentField(BaseField, Generic[T]):
-    field: Type[T]
-    required: bool = False
-    default: Optional[Any] = None
-    help_text: str = ...
+    def __init__(
+        self,
+        field: Type[T],
+        required: bool = False,
+        default: Optional[Any] = None,
+        help_text: str = ...,
+    ) -> None: ...
     def __set__(self, instance: Any, value: Optional[T]) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> T: ...
 
 _MapType = Dict[str, Any]
-@dataclass(frozen=True)
-class MapField:
-    field: Union[
-        StringField,
-        BooleanField,
-        DateTimeField,
-        IntField,
-        MapField,
-        EmbeddedDocumentField[Any],
-    ]
-    required: bool = True
-    name: Optional[str] = None
-    primary_key: bool = False
-    help_text: Optional[str] = None
-    default: Union[_MapType, Callable[[], _MapType]] = ...
-    verbose_name: Optional[str] = ...
-    db_field: str = ...
+
+class MapField(BaseField):
+    def __init__(
+        self,
+        field: BaseField,
+        required: bool = True,
+        name: Optional[str] = ...,
+        primary_key: bool = ...,
+        help_text: Optional[str] = ...,
+        default: Union[_MapType, Callable[[], _MapType]] = ...,
+        verbose_name: Optional[str] = ...,
+        db_field: str = ...,
+    ) -> None: ...
     def __set__(self, instance: Any, value: Optional[_MapType]) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _MapType: ...
