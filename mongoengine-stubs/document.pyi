@@ -1,0 +1,88 @@
+from __future__ import annotations
+
+from typing import Any, Dict, Mapping, Optional, Type, TypeVar
+
+import mongoengine.errors as errors
+from bson import SON
+from mongoengine.base import BaseDocument
+from mongoengine.fields import StringField
+from pymongo import Collection
+from typing_extensions import TypedDict
+
+U = TypeVar("U", bound="Document")
+
+_MetaDict = Mapping[str, Any]
+
+class _UnderMetaDict(TypedDict):
+    strict: bool
+    collection: str
+
+class Document(BaseDocument):
+    meta: _MetaDict
+    _meta: _UnderMetaDict
+    _fields: Dict[str, Any]
+
+    pk = StringField()
+    @classmethod
+    def _get_collection(cls) -> Collection: ...
+    # NOTE(sbdchd): if we are willing to change all Document.objects.filter()
+    # to Document.objects().filter() then we can define this method and we
+    # won't need to provide the `objects = ObjectManager[T]()` in each mongo model.
+    #
+    # @classmethod
+    # def objects(cls: Type[U]) -> QuerySet[U]:
+    #     """
+    #     from:
+    #     https://github.com/python/peps/blob/50a31d14b467aba0cc0168408369d2bb28e9b4e2/pep-0484.txt#L1260-L1270
+    #     """
+    #     ...
+    def to_json(self) -> str: ...
+    def to_mongo(self) -> SON: ...
+    def modify(self, query: Optional[object] = ..., **update: object) -> bool: ...
+    def update(self, **update: object) -> int: ...
+    def __contains__(self, key: str) -> bool: ...
+    def delete(self, signal_kwargs: object = ..., **write_concern: object) -> None: ...
+    @classmethod
+    def from_json(cls: Type[U], data: object, created: bool = ...) -> U: ...
+    def save(
+        self,
+        force_insert: bool = ...,
+        validate: bool = ...,
+        clean: bool = ...,
+        write_concern: Any = ...,
+        cascade: Any = ...,
+        cascade_kwargs: Any = ...,
+        _refs: Any = ...,
+        save_condition: Any = ...,
+        signal_kwargs: Any = ...,
+    ) -> Document: ...
+    class DoesNotExist(errors.DoesNotExist): ...
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
+    def reload(self: U) -> U:
+        """
+        from: https://github.com/python/peps/commit/ada7d3566e26edf5381d1339b61e48a82c51c566#diff-da7d638a3d189515209a80943cdc8eaf196b75d20ccc0d6a796393c025d1f975R1169
+        """
+        ...
+    # TODO(sbdchd): later we can remove these to get more type checking and better autocomplete
+    def __getitem__(self, key: str) -> Any: ...
+    def __setitem__(self, key: str, value: Any) -> None: ...
+
+class EmbeddedDocument(BaseDocument):
+    _fields: Dict[str, Any]
+    _meta: _UnderMetaDict
+    def __init__(self, *args: Any, **kwargs: Any) -> None: ...
+    def save(self) -> None: ...
+    def to_mongo(self) -> SON: ...
+    def __contains__(self, key: str) -> bool: ...
+    def __getitem__(self, key: str) -> Any: ...
+
+class DynamicDocument(Document):
+    def __getattr__(self, key: str) -> Any: ...
+    def __setattr__(self, key: str, value: Any) -> None: ...
+
+__all__ = [
+    "DynamicDocument",
+    "EmbeddedDocument",
+    "Document",
+    "BaseDocument",
+]

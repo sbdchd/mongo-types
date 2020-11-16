@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "mongo-types"
+version = "0.1.0"
+description = "Type stubs for mongoengine w/ basic support for bson and pymongo"
+repository = "https://github.com/sbdchd/mongo-types"
+readme = "README.md"
+authors = ["Steve Dignam <steve@dignam.xyz>"]
+license = "Apache-2.0"
+keywords = ["mongoengine", "mongo", "types", "mypy", "stubs"]
+
+packages = [
+  { include = "mongoengine-stubs" },
+  { include = "bson-stubs" },
+  { include = "pymongo-stubs" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+mypy = "^0.790.0"
+ipython = "^7.19"
+mongoengine = "0.15.3"
+flake8 = "^3.8"
+black = {version = "20.8b1",allows-prereleases = true}
+isort = "^4.3"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
