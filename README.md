@@ -1,4 +1,4 @@
-# mongo-types
+# mongo-types [![PyPI](https://img.shields.io/pypi/v/mongo-types.svg)](https://pypi.org/project/mongo-types/)
 
 Type stubs for [`mongoengine`][0] with some basic type stubs for [`pymongo`][1]
 and [`bson`][2].
