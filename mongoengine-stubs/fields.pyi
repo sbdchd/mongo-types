@@ -186,7 +186,7 @@ class DictField(BaseField, Generic[T]):
 
 class EmbeddedDocumentListField(BaseField, Generic[T]):
     def __init__(
-        self, kind: Type[T], required: bool = False, default: Optional[Any] = None
+        self, kind: Type[T], required: bool = ..., default: Optional[Any] = ...
     ) -> None: ...
     def __getitem__(self, arg: Any) -> T: ...
     def __iter__(self) -> Iterator[T]: ...
@@ -219,7 +219,7 @@ class ListField(BaseField, Generic[T]):
     ) -> None: ...
     @overload
     def __init__(
-        self: ListField[DictField],
+        self: ListField[DictField[Any]],
         field: T = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
@@ -245,7 +245,7 @@ class ListField(BaseField, Generic[T]):
     ) -> None: ...
     @overload
     def __set__(
-        self: ListField[DictField], instance: Any, value: List[Dict[str, Any]]
+        self: ListField[DictField[Any]], instance: Any, value: List[Dict[str, Any]]
     ) -> None: ...
     @overload
     def __set__(self: ListField[T], instance: Any, value: List[T]) -> None: ...
@@ -259,7 +259,7 @@ class ListField(BaseField, Generic[T]):
     ) -> List[str]: ...
     @overload
     def __get__(
-        self: ListField[DictField], instance: Any, owner: Any
+        self: ListField[DictField[Any]], instance: Any, owner: Any
     ) -> List[Dict[str, Any]]: ...
 
 class UUIDField(GenericField[UUID]):
@@ -283,8 +283,8 @@ class EmbeddedDocumentField(BaseField, Generic[T]):
     def __init__(
         self,
         field: Type[T],
-        required: bool = False,
-        default: Optional[Any] = None,
+        required: bool = ...,
+        default: Optional[Any] = ...,
         help_text: str = ...,
     ) -> None: ...
     def __set__(self, instance: Any, value: Optional[T]) -> None: ...
@@ -292,17 +292,5 @@ class EmbeddedDocumentField(BaseField, Generic[T]):
 
 _MapType = Dict[str, Any]
 
-class MapField(BaseField):
-    def __init__(
-        self,
-        field: BaseField,
-        required: bool = True,
-        name: Optional[str] = ...,
-        primary_key: bool = ...,
-        help_text: Optional[str] = ...,
-        default: Union[_MapType, Callable[[], _MapType]] = ...,
-        verbose_name: Optional[str] = ...,
-        db_field: str = ...,
-    ) -> None: ...
-    def __set__(self, instance: Any, value: Optional[_MapType]) -> None: ...
-    def __get__(self, instance: Any, owner: Any) -> _MapType: ...
+class MapField(DictField[T]):
+    pass

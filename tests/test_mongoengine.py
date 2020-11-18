@@ -5,6 +5,7 @@ import types
 from typing import Any, KeysView, Type, TypeVar, cast
 
 import mongoengine
+from bson import ObjectId
 from mongoengine import Document, EmbeddedDocument, QuerySet, fields
 
 mongoengine.connect("testdb")
@@ -38,6 +39,15 @@ class QuerySetManager:
         return PostQuerySet(cls, cls._get_collection())
 
 
+class Recipe(Document):
+
+    meta = {"collection": "recipes"}
+
+    id = fields.ObjectIdField(primary_key=True, default=ObjectId)
+
+    description = fields.StringField()
+
+
 class Post(Document):
     meta = {
         "collection": "posts",
@@ -59,6 +69,11 @@ class Post(Document):
     location = fields.StringField(required=False, default="home-page")
     is_hidden = fields.BooleanField(default=False)
     comment_count = fields.IntField(required=False)
+
+    errors = fields.ListField(
+        field=fields.DictField(field=fields.StringField()), default=[]
+    )
+    results = fields.DictField()
 
     attachments = fields.EmbeddedDocumentListField(PostAttachment, required=False)
     tags = fields.MapField(
@@ -107,6 +122,11 @@ def main() -> None:
     insert_result_2 = Post.objects().insert([Post(), Post()], load_bulk=False)
     print(insert_result_2)
 
+    first_post = posts[0]
+    first_post.tags.values()
+    first_post.errors
+    first_post.results
+
     assert Post.dead_posts().count() == 1
 
     assert Post.objects().none()
@@ -119,8 +139,14 @@ def main() -> None:
     assert len(Post.objects) > 0
 
     post = Post.objects().get()
-    print(post.id)
+    print(post._id)
     post.attachments[-1]
     list(post.attachments)
+
+    x: Post = Post().save()
+    print(x)
+
+    recipe = Recipe().save()
+    print(recipe.id)
 
     Post().reload()

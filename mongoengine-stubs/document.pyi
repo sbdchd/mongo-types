@@ -9,7 +9,7 @@ from mongoengine.fields import StringField
 from pymongo import Collection
 from typing_extensions import TypedDict
 
-U = TypeVar("U", bound="Document")
+_U = TypeVar("_U", bound="Document")
 
 _MetaDict = Mapping[str, Any]
 
@@ -43,9 +43,9 @@ class Document(BaseDocument):
     def __contains__(self, key: str) -> bool: ...
     def delete(self, signal_kwargs: object = ..., **write_concern: object) -> None: ...
     @classmethod
-    def from_json(cls: Type[U], data: object, created: bool = ...) -> U: ...
+    def from_json(cls: Type[_U], data: object, created: bool = ...) -> _U: ...
     def save(
-        self,
+        self: _U,
         force_insert: bool = ...,
         validate: bool = ...,
         clean: bool = ...,
@@ -55,10 +55,10 @@ class Document(BaseDocument):
         _refs: Any = ...,
         save_condition: Any = ...,
         signal_kwargs: Any = ...,
-    ) -> Document: ...
+    ) -> _U: ...
     class DoesNotExist(errors.DoesNotExist): ...
     def __init__(self, *args: Any, **kwargs: Any) -> None: ...
-    def reload(self: U) -> U:
+    def reload(self: _U) -> _U:
         """
         from: https://github.com/python/peps/commit/ada7d3566e26edf5381d1339b61e48a82c51c566#diff-da7d638a3d189515209a80943cdc8eaf196b75d20ccc0d6a796393c025d1f975R1169
         """

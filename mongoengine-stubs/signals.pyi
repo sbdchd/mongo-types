@@ -1,7 +1,5 @@
 from typing import Any, Callable
 
-from mongoengine.document import Document
-
 SignalCallback = Callable[[Any, Any], None]
 
 class post_save:

@@ -1,8 +1,5 @@
-from typing import Any
-
 class BaseDocument:
-    # TODO(sbdchd): can we do better?
-    id: Any
+    pass
 
 class BaseField:
     pass
