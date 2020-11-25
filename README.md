@@ -16,6 +16,7 @@ argument at runtime:
 
 ```python
 import types
+from mongoengine.queryset.queryset import QuerySet
 
 def no_op(self, x):
     return self
