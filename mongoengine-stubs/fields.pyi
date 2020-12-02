@@ -149,8 +149,8 @@ class DictField(BaseField, Generic[T]):
         name: Optional[str] = ...,
         primary_key: bool = ...,
         help_text: Optional[str] = ...,
-        default: Union[Dict[str, T], None, Callable[[], Dict[str, T]]] = ...,
-        choices: Optional[List[T]] = ...,
+        default: Union[Dict[str, Any], None, Callable[[], Dict[str, Any]]] = ...,
+        choices: Optional[List[Dict[str, Any]]] = ...,
         verbose_name: Optional[str] = ...,
         db_field: str = ...,
     ) -> None: ...
@@ -169,6 +169,10 @@ class DictField(BaseField, Generic[T]):
     @overload
     def __set__(
         self: DictField[T], instance: object, value: Optional[Dict[str, T]]
+    ) -> None: ...
+    @overload
+    def __set__(
+        self: DictField[Any], instance: object, value: Optional[Dict[str, Any]]
     ) -> None: ...
     @overload
     def __get__(
