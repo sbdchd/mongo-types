@@ -1,11 +1,6 @@
 #!/bin/sh
 
-set -ex
-
-if [[ ! -f ./.venv/lib/python3.7/site-packages/mongo-types.egg-link ]]; then
-  ./.venv/bin/pip install -e .
-fi
-
+set -e
 
 # format code
 if [[ $CI ]]; then
@@ -15,6 +10,8 @@ else
     ./.venv/bin/black .
     ./.venv/bin/isort -y
 fi
+
+./node_modules/.bin/pyright .
 
 # type check code
 ./.venv/bin/mypy tests

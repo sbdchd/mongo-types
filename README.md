@@ -216,6 +216,12 @@ poetry install
 
 # run formatting, linting, and typechecking
 s/lint
+
+# build
+poetry build -f wheel
+
+# build and publish
+poetry publish --build
 ```
 
 [0]: https://github.com/MongoEngine/mongoengine
