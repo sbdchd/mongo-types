@@ -1,7 +1,6 @@
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple, Union
 
 from bson.codec_options import CodecOptions
-from bson.objectid import ObjectId
 from pymongo.bulk import BulkOperationBuilder
 from pymongo.change_stream import CollectionChangeStream
 from pymongo.client_session import ClientSession
@@ -29,11 +28,14 @@ from pymongo.results import (
     UpdateResult,
 )
 from pymongo.write_concern import WriteConcern
-from typing_extensions import Literal
+from typing_extensions import Literal, TypedDict
 
 class ReturnDocument:
     BEFORE: Literal[False] = False
     AFTER: Literal[True] = True
+
+class _ResumeToken(TypedDict):
+    _data: bytes
 
 class Collection(BaseObject):
     @property
@@ -139,12 +141,12 @@ class Collection(BaseObject):
         self,
         pipeline: Optional[List[Dict[str, Any]]] = ...,
         full_document: Optional[Literal["updateLookup"]] = ...,
-        resume_after: Optional[Any] = ...,
+        resume_after: Optional[_ResumeToken] = ...,
         max_await_time_ms: Optional[int] = ...,
         batch_size: Optional[int] = ...,
         collation: Optional[Collation] = ...,
         session: Optional[ClientSession] = ...,
-        start_after: Optional[Any] = ...,
+        start_after: Optional[_ResumeToken] = ...,
     ) -> CollectionChangeStream: ...
     def find(
         self,
@@ -154,7 +156,7 @@ class Collection(BaseObject):
         limit: int = ...,
         no_cursor_timeout: bool = ...,
         cursor_type: CursorType = ...,
-        sort: List[str, Union[int, Dict[str, str]]] = ...,
+        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
         allow_partial_results: bool = ...,
         oplog_replay: bool = ...,
         modifiers: Dict[str, Any] = ...,
@@ -164,8 +166,8 @@ class Collection(BaseObject):
         hint: Optional[Dict[str, int]] = ...,
         max_scan: Optional[int] = ...,
         max_time_ms: Optional[int] = ...,
-        max: Optional[List[str, int]] = ...,
-        min: Optional[List[str, int]] = ...,
+        max: Optional[List[Tuple[str, int]]] = ...,
+        min: Optional[List[Tuple[str, int]]] = ...,
         return_key: bool = ...,
         show_record_id: bool = ...,
         snapshot: bool = ...,
@@ -180,7 +182,7 @@ class Collection(BaseObject):
         limit: int = ...,
         no_cursor_timeout: bool = ...,
         cursor_type: CursorType = ...,
-        sort: List[str, Union[int, Dict[str, str]]] = ...,
+        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
         allow_partial_results: bool = ...,
         oplog_replay: bool = ...,
         modifiers: Dict[str, Any] = ...,
@@ -190,8 +192,8 @@ class Collection(BaseObject):
         hint: Optional[Dict[str, int]] = ...,
         max_scan: Optional[int] = ...,
         max_time_ms: Optional[int] = ...,
-        max: Optional[List[str, int]] = ...,
-        min: Optional[List[str, int]] = ...,
+        max: Optional[List[Tuple[str, int]]] = ...,
+        min: Optional[List[Tuple[str, int]]] = ...,
         return_key: bool = ...,
         show_record_id: bool = ...,
         snapshot: bool = ...,
@@ -205,7 +207,7 @@ class Collection(BaseObject):
         limit: int = ...,
         no_cursor_timeout: bool = ...,
         cursor_type: CursorType = ...,
-        sort: List[str, Union[int, Dict[str, str]]] = ...,
+        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
         allow_partial_results: bool = ...,
         oplog_replay: bool = ...,
         modifiers: Dict[str, Any] = ...,
@@ -228,7 +230,7 @@ class Collection(BaseObject):
         filter: Optional[Dict[str, Any]],
         replacement: Dict[str, Any],
         projection: Optional[Dict[str, Any]] = ...,
-        sort: List[str, Union[int, Dict[str, str]]] = ...,
+        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
         hint: Optional[Dict[str, int]] = ...,
         session: Optional[ClientSession] = ...,
     ) -> Optional[Dict[str, Any]]: ...
@@ -236,7 +238,7 @@ class Collection(BaseObject):
         self,
         filter: Optional[Dict[str, Any]],
         projection: Optional[Dict[str, Any]] = ...,
-        sort: List[str, Union[int, Dict[str, str]]] = ...,
+        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
         return_document: ReturnDocument = ...,
         hint: Optional[Dict[str, int]] = ...,
         session: Optional[ClientSession] = ...,
@@ -246,7 +248,7 @@ class Collection(BaseObject):
         filter: Optional[Dict[str, Any]],
         update: Dict[str, Any],
         projection: Optional[Dict[str, Any]] = ...,
-        sort: List[str, Union[int, Dict[str, str]]] = ...,
+        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
         return_document: ReturnDocument = ...,
         array_filters: Optional[List[Dict[str, Any]]] = ...,
         hint: Optional[Dict[str, int]] = ...,
@@ -350,10 +352,10 @@ class Collection(BaseObject):
         self, num_cursors: int, session: Optional[ClientSession] = ...
     ) -> List[CommandCursor]: ...
     def iniitalize_unordered_bulk_op(
-        self, bypass_document_validation: bool = False
+        self, bypass_document_validation: bool = ...
     ) -> BulkOperationBuilder: ...
     def iniitalize_ordered_bulk_op(
-        self, bypass_document_validation: bool = False
+        self, bypass_document_validation: bool = ...
     ) -> BulkOperationBuilder: ...
     def group(
         self,

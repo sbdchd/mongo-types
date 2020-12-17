@@ -9,5 +9,5 @@ class CodecOptions:
         tz_aware: bool = ...,
         uuid_representation: int = ...,
         unicode_decode_error_handler: str = ...,
-        tzinfo: Optional[Any] = None,
+        tzinfo: Optional[Any] = ...,
     ) -> None: ...

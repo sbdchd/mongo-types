@@ -6,7 +6,7 @@ import mongoengine.errors as errors
 from bson import SON
 from mongoengine.base import BaseDocument
 from mongoengine.fields import StringField
-from pymongo import Collection
+from pymongo.collection import Collection
 from typing_extensions import TypedDict
 
 _U = TypeVar("_U", bound="Document")
