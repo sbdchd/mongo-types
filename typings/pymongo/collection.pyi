@@ -277,8 +277,8 @@ class Collection(BaseObject):
     ) -> List[Any]: ...
     def create_index(
         self,
-        field: str,
-        name: str,
+        keys: Union[str, List[Tuple[str, int]]],
+        name: Optional[str] = ...,
         unique: bool = ...,
         background: bool = ...,
         sparse: bool = ...,

@@ -5,8 +5,10 @@ import types
 from typing import Any, KeysView, Type, TypeVar, cast
 
 import mongoengine
+import pymongo
 from bson import ObjectId
 from mongoengine import Document, EmbeddedDocument, QuerySet, fields
+from pymongo.collation import Collation, CollationStrength
 
 mongoengine.connect("testdb")
 
@@ -134,6 +136,21 @@ def main() -> None:
 
     Post.objects().create(body="foo")
     Post.objects.create(body="foo")
+
+    Post._get_collection().create_index(
+        "name",
+        name="name_unique_idx",
+        unique=True,
+        background=True,
+        collation=Collation(
+            locale="en", caseLevel=False, strength=CollationStrength.PRIMARY
+        ),
+    )
+    Post._get_collection().create_index(
+        [("foo", pymongo.ASCENDING), ("bar", pymongo.ASCENDING)],
+        unique=True,
+        partialFilterExpression={"_phone": {"$exists": True}},
+    )
 
     assert len(Post.objects()) > 0
     assert len(Post.objects) > 0
