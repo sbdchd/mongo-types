@@ -15,9 +15,9 @@ from typing import (
 
 from bson import ObjectId
 from mongoengine.queryset.visitor import Q
-from pymongo import Cursor
 from pymongo.collection import Collection
 from pymongo.command_cursor import CommandCursor
+from pymongo.cursor import Cursor
 from typing_extensions import Literal
 
 _T = TypeVar("_T")
