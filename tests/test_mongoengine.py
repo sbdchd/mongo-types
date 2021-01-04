@@ -251,3 +251,20 @@ def test_pymongo() -> None:
     pymongo.version
     pymongo.version_tuple
     pymongo.write_concern
+
+    def get_write_result() -> pymongo.results.BulkWriteResult:
+        ...
+
+    bulk_write_result = get_write_result()
+    bulk_write_result.inserted_count
+    bulk_write_result.matched_count
+
+    try:
+        print()
+    except pymongo.errors.BulkWriteError as e:
+        for error in e.details["writeErrors"]:
+            print(error["errmsg"])
+            phone = error["op"]["u"]["$set"]["_phone"]
+            user_id = error["op"]["u"]["$set"]["_id"]
+            print(phone)
+            print(user_id)
