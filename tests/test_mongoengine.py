@@ -129,6 +129,10 @@ def main() -> None:
     first_post.errors
     first_post.results
 
+    p = Post()
+    p.validate()
+    p.save()
+
     assert Post.dead_posts().count() == 1
 
     assert Post.objects().none()
