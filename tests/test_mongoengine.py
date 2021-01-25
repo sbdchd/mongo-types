@@ -129,7 +129,12 @@ def main() -> None:
     first_post.errors
     first_post.results
 
-    assert Post.dead_posts().count() == 1
+    assert    Post.dead_posts(
+
+
+
+
+    ).count() == 1
 
     assert Post.objects().none()
     assert Post.objects().get(id="foo")
