@@ -6,7 +6,7 @@ from typing import Any, KeysView, Type, TypeVar, cast
 
 import mongoengine
 import pymongo
-from bson import ObjectId
+from bson import BSON, ObjectId
 from mongoengine import Document, EmbeddedDocument, QuerySet, fields
 from pymongo.collation import Collation, CollationStrength
 
@@ -171,6 +171,12 @@ def main() -> None:
     print(recipe.id)
 
     Post().reload()
+
+
+def test_bson() -> None:
+    doc = {"foo": "bar", "buzz": True}
+    data = BSON.encode(doc)
+    assert BSON.decode(data) == doc
 
 
 def test_pymongo() -> None:
