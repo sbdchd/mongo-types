@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime
 import types
 from typing import Any, KeysView, Type, TypeVar, cast
+from bson import BSON
 
 import mongoengine
 import pymongo
@@ -171,6 +172,12 @@ def main() -> None:
     print(recipe.id)
 
     Post().reload()
+
+
+def test_bson() -> None:
+    doc = {"foo": "bar", "buzz": True}
+    data = BSON.encode(doc)
+    assert BSON.decode(data) == doc
 
 
 def test_pymongo() -> None:
