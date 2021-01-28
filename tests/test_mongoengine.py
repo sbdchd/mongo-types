@@ -3,11 +3,10 @@ from __future__ import annotations
 import datetime
 import types
 from typing import Any, KeysView, Type, TypeVar, cast
-from bson import BSON
 
 import mongoengine
 import pymongo
-from bson import ObjectId
+from bson import BSON, ObjectId
 from mongoengine import Document, EmbeddedDocument, QuerySet, fields
 from pymongo.collation import Collation, CollationStrength
 
