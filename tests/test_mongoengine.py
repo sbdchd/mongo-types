@@ -130,6 +130,12 @@ def main() -> None:
     res: int = Post.objects().update(foo=True)
     print(res)
 
+    name = "some_name"
+    update_args = {f"foo_bar{name}_buzz": "buzz"}
+    Post.objects().update(**update_args)
+    Post.objects().update_one(**update_args)
+    Post.objects().upsert_one(**update_args)
+
     first_post = posts[0]
     first_post.tags.values()
     first_post.errors
