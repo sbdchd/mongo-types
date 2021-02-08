@@ -6,6 +6,7 @@ from typing import (
     Generic,
     Iterator,
     List,
+    Mapping,
     Optional,
     Type,
     TypeVar,
@@ -26,7 +27,7 @@ _T = TypeVar("_T")
 
 _U = TypeVar("_U", bound="QuerySet[Any]")
 
-_ReadWriteConcern = Dict[str, Union[str, int, bool]]
+_ReadWriteConcern = Mapping[str, Union[str, int, bool]]
 
 class QuerySet(Generic[_T]):
     _document: Type[_T]
@@ -59,26 +60,9 @@ class QuerySet(Generic[_T]):
     def as_pymongo(self) -> QuerySet[Dict[str, Any]]: ...
     def scalar(self, *fields: str) -> List[Any]: ...
     def values_list(self, *args: str) -> List[Any]: ...
-    def update(
-        self,
-        upsert: bool = ...,
-        multi: bool = ...,
-        write_concern: Optional[_ReadWriteConcern] = ...,
-        read_concern: Optional[_ReadWriteConcern] = ...,
-        **update: object
-    ) -> int: ...
-    def update_one(
-        self,
-        upsert: bool = ...,
-        write_concern: Optional[_ReadWriteConcern] = ...,
-        **update: object
-    ) -> int: ...
-    def upsert_one(
-        self,
-        write_concern: Optional[_ReadWriteConcern] = ...,
-        read_concern: Optional[_ReadWriteConcern] = ...,
-        **update: object
-    ) -> _T: ...
+    def update(self, **update: Any) -> int: ...
+    def update_one(self, **update: Any) -> int: ...
+    def upsert_one(self, **update: Any) -> _T: ...
     def delete(self) -> None: ...
     def filter(self: _U, *args: Q, **kwargs: object) -> _U: ...
     def none(self: _U) -> _U: ...
