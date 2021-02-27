@@ -227,3 +227,10 @@ poetry publish --build
 [0]: https://github.com/MongoEngine/mongoengine
 [1]: https://github.com/mongodb/mongo-python-driver/tree/master/pymongo
 [2]: https://github.com/mongodb/mongo-python-driver/tree/master/bson
+
+## related
+
+- <https://github.com/sbdchd/django-types>
+- <https://github.com/sbdchd/djangorestframework-types>
+- <https://github.com/sbdchd/celery-types>
+- <https://github.com/sbdchd/msgpack-types>
