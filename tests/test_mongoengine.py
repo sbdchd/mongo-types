@@ -73,11 +73,15 @@ class Post(Document):
     comment_count = fields.IntField(required=False)
 
     errors = fields.ListField(
-        field=fields.DictField(field=fields.StringField()), default=[]
+        field=fields.DictField(field=fields.StringField()),
+        default=[],
+        help_text="some sort of errors",
     )
     results = fields.DictField()
 
-    attachments = fields.EmbeddedDocumentListField(PostAttachment, required=False)
+    attachments = fields.EmbeddedDocumentListField(
+        PostAttachment, required=False, help_text="random attachments"
+    )
     tags = fields.MapField(
         required=False,
         field=fields.StringField(required=True),
