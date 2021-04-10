@@ -24,23 +24,24 @@ from mongoengine.document import Document
 
 T = TypeVar("T")
 
-class GenericField(BaseField, Generic[T]):
+_ST = TypeVar("_ST")
+_GT = TypeVar("_GT")
+
+class GenericField(Generic[_ST, _GT], BaseField):
     def __init__(
         self,
         required: bool = ...,
         name: Optional[str] = ...,
         primary_key: bool = ...,
         help_text: Optional[str] = ...,
-        default: Union[T, None, Callable[[], T]] = ...,
-        choices: Optional[List[T]] = ...,
+        default: Union[_ST, None, Callable[[], _ST]] = ...,
+        choices: Optional[List[_ST]] = ...,
         verbose_name: Optional[str] = ...,
         db_field: str = ...,
         null: bool = ...,
     ) -> None: ...
-    # TODO(sbdchd): use overloads to ensure we can only use nulls when
-    # null=True is passed in
-    def __set__(self, instance: Any, value: Optional[T]) -> None: ...
-    def __get__(self, instance: Any, owner: Any) -> T: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class IntField(GenericField[int]):
     def __init__(
