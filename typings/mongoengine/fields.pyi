@@ -21,8 +21,9 @@ from uuid import UUID
 from bson import ObjectId
 from mongoengine.base import BaseField
 from mongoengine.document import Document
+from typing_extensions import Literal
 
-T = TypeVar("T")
+_T = TypeVar("_T")
 
 _ST = TypeVar("_ST")
 _GT = TypeVar("_GT")
@@ -129,12 +130,12 @@ class DateTimeField(GenericField[datetime, datetime]):
 class DynamicField(GenericField[Any, Any]):
     pass
 
-class DictField(BaseField, Generic[T]):
+class DictField(BaseField, Generic[_T]):
     # not sure we need the init method overloads
     @overload
     def __init__(
         self: DictField[StringField],
-        field: T = ...,
+        field: _T = ...,
         required: bool = ...,
         name: Optional[str] = ...,
         primary_key: bool = ...,
@@ -147,7 +148,7 @@ class DictField(BaseField, Generic[T]):
     @overload
     def __init__(
         self: DictField[ListField[StringField]],
-        field: T = ...,
+        field: _T = ...,
         required: bool = ...,
         name: Optional[str] = ...,
         primary_key: bool = ...,
@@ -161,8 +162,8 @@ class DictField(BaseField, Generic[T]):
     ) -> None: ...
     @overload
     def __init__(
-        self: DictField[T],
-        field: T = ...,
+        self: DictField[_T],
+        field: _T = ...,
         required: bool = ...,
         name: Optional[str] = ...,
         primary_key: bool = ...,
@@ -186,7 +187,7 @@ class DictField(BaseField, Generic[T]):
     ) -> None: ...
     @overload
     def __set__(
-        self: DictField[T], instance: object, value: Optional[Dict[str, T]]
+        self: DictField[_T], instance: object, value: Optional[Dict[str, _T]]
     ) -> None: ...
     @overload
     def __set__(
@@ -204,20 +205,20 @@ class DictField(BaseField, Generic[T]):
     def __get__(
         self: DictField[ListField[StringField]], instance: object, owner: object
     ) -> Dict[str, List[str]]: ...
-    def __getitem__(self, arg: Any) -> T: ...
+    def __getitem__(self, arg: Any) -> _T: ...
 
-class EmbeddedDocumentListField(BaseField, Generic[T]):
+class EmbeddedDocumentListField(BaseField, Generic[_T]):
     def __init__(
         self,
-        kind: Type[T],
+        kind: Type[_T],
         required: bool = ...,
         default: Optional[Any] = ...,
         help_text: str = ...,
     ) -> None: ...
-    def __getitem__(self, arg: Any) -> T: ...
-    def __iter__(self) -> Iterator[T]: ...
-    def __set__(self, instance: Any, value: List[T]) -> None: ...
-    def __get__(self, instance: Any, owner: Any) -> List[T]: ...
+    def __getitem__(self, arg: Any) -> _T: ...
+    def __iter__(self) -> Iterator[_T]: ...
+    def __set__(self, instance: Any, value: List[_T]) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> List[_T]: ...
 
 class LazyReference(GenericField[Any, Any]):
     pass
@@ -231,12 +232,12 @@ class LazyReferenceField(GenericField[Any, Any]):
         help_text: Optional[str] = ...,
     ) -> None: ...
 
-class ListField(BaseField, Generic[T]):
+class ListField(BaseField, Generic[_T]):
     # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
     @overload
     def __init__(
         self: ListField[StringField],
-        field: T = ...,
+        field: _T = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
@@ -246,7 +247,7 @@ class ListField(BaseField, Generic[T]):
     @overload
     def __init__(
         self: ListField[DictField[Any]],
-        field: T = ...,
+        field: _T = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
@@ -255,16 +256,16 @@ class ListField(BaseField, Generic[T]):
     ) -> None: ...
     @overload
     def __init__(
-        self: ListField[T],
-        field: T = ...,
+        self: ListField[_T],
+        field: _T = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
         help_text: str = ...,
         null: bool = ...,
     ) -> None: ...
-    def __getitem__(self, arg: Any) -> T: ...
-    def __iter__(self) -> Iterator[T]: ...
+    def __getitem__(self, arg: Any) -> _T: ...
+    def __iter__(self) -> Iterator[_T]: ...
     @overload
     def __set__(
         self: ListField[StringField], instance: Any, value: Optional[List[str]]
@@ -274,7 +275,7 @@ class ListField(BaseField, Generic[T]):
         self: ListField[DictField[Any]], instance: Any, value: List[Dict[str, Any]]
     ) -> None: ...
     @overload
-    def __set__(self: ListField[T], instance: Any, value: List[T]) -> None: ...
+    def __set__(self: ListField[_T], instance: Any, value: List[_T]) -> None: ...
     @overload
     def __get__(
         self: ListField[DynamicField], instance: Any, owner: Any
@@ -305,18 +306,31 @@ class UUIDField(GenericField[UUID, UUID]):
 class ObjectIdField(GenericField[ObjectId, ObjectId]):
     pass
 
-class EmbeddedDocumentField(BaseField, Generic[T]):
+class EmbeddedDocumentField(BaseField, Generic[_T]):
+    @overload
     def __init__(
-        self,
-        field: Type[T],
-        required: bool = ...,
-        default: Optional[Any] = ...,
+        self: EmbeddedDocumentField[_T],
+        field: Type[_T],
+        required: Literal[True] = ...,
         help_text: str = ...,
     ) -> None: ...
-    def __set__(self, instance: Any, value: Optional[T]) -> None: ...
-    def __get__(self, instance: Any, owner: Any) -> T: ...
+    @overload
+    def __init__(
+        self: EmbeddedDocumentField[Optional[_T]],
+        field: Type[_T],
+        required: Literal[False] = ...,
+        default: Union[_T, Callable[[], _T], None] = ...,
+        help_text: str = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: Optional[_T]) -> None: ...
+    @overload
+    def __get__(self: EmbeddedDocumentField[_T], instance: Any, owner: Any) -> _T: ...
+    @overload
+    def __get__(
+        self: EmbeddedDocumentField[Optional[_T]], instance: Any, owner: Any
+    ) -> Optional[_T]: ...
 
 _MapType = Dict[str, Any]
 
-class MapField(DictField[T]):
+class MapField(DictField[_T]):
     pass
