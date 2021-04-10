@@ -308,20 +308,20 @@ class ObjectIdField(GenericField[ObjectId, ObjectId]):
 
 class EmbeddedDocumentField(BaseField, Generic[_T]):
     @overload
-    def __init__(
-        self: EmbeddedDocumentField[_T],
+    def __new__(
+        cls,
         field: Type[_T],
         required: Literal[True] = ...,
         help_text: str = ...,
-    ) -> None: ...
+    ) -> EmbeddedDocumentField[_T]: ...
     @overload
-    def __init__(
-        self: EmbeddedDocumentField[Optional[_T]],
+    def __new__(
+        cls,
         field: Type[_T],
         required: Literal[False] = ...,
         default: Union[_T, Callable[[], _T], None] = ...,
         help_text: str = ...,
-    ) -> None: ...
+    ) -> EmbeddedDocumentField[Optional[_T]]: ...
     def __set__(self, instance: Any, value: Optional[_T]) -> None: ...
     @overload
     def __get__(self: EmbeddedDocumentField[_T], instance: Any, owner: Any) -> _T: ...
