@@ -43,10 +43,11 @@ class GenericField(Generic[_ST, _GT], BaseField):
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
-class IntField(GenericField[int, int]):
+class IntField(GenericField[_ST, _GT]):
+    @overload
     def __init__(
-        self,
-        required: bool = ...,
+        self: IntField[int, int],
+        required: Literal[True] = ...,
         name: Optional[str] = ...,
         primary_key: bool = ...,
         help_text: Optional[str] = ...,
@@ -57,6 +58,22 @@ class IntField(GenericField[int, int]):
         max: int = ...,
         null: bool = ...,
     ) -> None: ...
+    @overload
+    def __init__(
+        self: IntField[Optional[int], Optional[int]],
+        required: Literal[False] = ...,
+        name: Optional[str] = ...,
+        primary_key: bool = ...,
+        help_text: Optional[str] = ...,
+        default: Union[int, Callable[[], int], None] = ...,
+        choices: Optional[List[int]] = ...,
+        verbose_name: Optional[str] = ...,
+        min: int = ...,
+        max: int = ...,
+        null: bool = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class DecimalField(GenericField[Decimal, Decimal]):
     pass
