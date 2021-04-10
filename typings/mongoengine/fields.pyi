@@ -43,7 +43,7 @@ class GenericField(Generic[_ST, _GT], BaseField):
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
-class IntField(GenericField[int]):
+class IntField(GenericField[int, int]):
     def __init__(
         self,
         required: bool = ...,
@@ -58,17 +58,17 @@ class IntField(GenericField[int]):
         null: bool = ...,
     ) -> None: ...
 
-class DecimalField(GenericField[Decimal]):
+class DecimalField(GenericField[Decimal, Decimal]):
     pass
 
-class EmailField(GenericField[str]):
+class EmailField(GenericField[str, str]):
     def validate(self, value: str) -> None: ...
 
-class FloatField(GenericField[float]):
+class FloatField(GenericField[float, float]):
     pass
 
 # @dataclass(frozen=True)
-class StringField(GenericField[str]):
+class StringField(GenericField[str, str]):
     def __init__(
         self,
         required: bool = ...,
@@ -92,7 +92,7 @@ class StringField(GenericField[str]):
 # if we monkey patch we can make this generic like:
 #     workflow = fields.ReferenceField[Dialog]("Dialog")
 
-class ReferenceField(GenericField[Any]):
+class ReferenceField(GenericField[Any, Any]):
     def __init__(
         self,
         model: str,
@@ -103,13 +103,13 @@ class ReferenceField(GenericField[Any]):
     ) -> None: ...
     def __getitem__(self, arg: Any) -> Any: ...
 
-class BooleanField(GenericField[bool]):
+class BooleanField(GenericField[bool, bool]):
     pass
 
-class DateTimeField(GenericField[datetime]):
+class DateTimeField(GenericField[datetime, datetime]):
     pass
 
-class DynamicField(GenericField[Any]):
+class DynamicField(GenericField[Any, Any]):
     pass
 
 class DictField(BaseField, Generic[T]):
@@ -202,10 +202,10 @@ class EmbeddedDocumentListField(BaseField, Generic[T]):
     def __set__(self, instance: Any, value: List[T]) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> List[T]: ...
 
-class LazyReference(GenericField[Any]):
+class LazyReference(GenericField[Any, Any]):
     pass
 
-class LazyReferenceField(GenericField[Any]):
+class LazyReferenceField(GenericField[Any, Any]):
     def __init__(
         self,
         name: Union[str, Type[Document]],
@@ -271,7 +271,7 @@ class ListField(BaseField, Generic[T]):
         self: ListField[DictField[Any]], instance: Any, owner: Any
     ) -> List[Dict[str, Any]]: ...
 
-class UUIDField(GenericField[UUID]):
+class UUIDField(GenericField[UUID, UUID]):
     def __init__(
         self,
         required: bool = ...,
@@ -285,7 +285,7 @@ class UUIDField(GenericField[UUID]):
         binary: bool = ...,
     ) -> None: ...
 
-class ObjectIdField(GenericField[ObjectId]):
+class ObjectIdField(GenericField[ObjectId, ObjectId]):
     pass
 
 class EmbeddedDocumentField(BaseField, Generic[T]):
