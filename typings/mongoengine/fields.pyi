@@ -506,7 +506,7 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
         cls,
         document_type: Type[_T],
         required: Literal[False] = ...,
-        default: Union[_T, Callable[[], _T], Type[_T]] = ...,
+        default: Union[_T, Callable[[], _T]] = ...,
         help_text: str = ...,
     ) -> EmbeddedDocumentField[Optional[_T], _T]: ...
     @overload
@@ -522,7 +522,7 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
         cls,
         document_type: Type[_T],
         required: Literal[True] = ...,
-        default: Union[_T, Callable[[], _T], Type[_T]] = ...,
+        default: Union[_T, Callable[[], _T]] = ...,
         help_text: str = ...,
     ) -> EmbeddedDocumentField[Optional[_T], _T]: ...
     def __set__(
