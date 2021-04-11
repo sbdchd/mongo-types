@@ -41,15 +41,16 @@ _GT = TypeVar("_GT")
 class BaseField(Generic[_ST, _GT]):
     def __init__(
         self,
-        required: bool = ...,
-        name: Optional[str] = ...,
-        primary_key: bool = ...,
-        help_text: Optional[str] = ...,
-        default: Union[_ST, None, Callable[[], _ST]] = ...,
-        choices: Optional[List[_ST]] = ...,
-        verbose_name: Optional[str] = ...,
         db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[_ST, None, Callable[[], _ST]] = ...,
+        primary_key: bool = ...,
+        choices: Optional[List[_ST]] = ...,
         null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
     ) -> None: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
+    def validate(self, value: _ST, clean: bool = ...) -> None: ...
