@@ -1,4 +1,15 @@
-from typing import Any, Dict, List, Optional, Tuple, Type, TypeVar
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Generic,
+    List,
+    Optional,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
+)
 
 from bson import SON
 
@@ -24,5 +35,21 @@ class BaseDocument:
         created: bool = ...,
     ) -> U: ...
 
-class BaseField:
-    pass
+_ST = TypeVar("_ST")
+_GT = TypeVar("_GT")
+
+class BaseField(Generic[_ST, _GT]):
+    def __init__(
+        self,
+        required: bool = ...,
+        name: Optional[str] = ...,
+        primary_key: bool = ...,
+        help_text: Optional[str] = ...,
+        default: Union[_ST, None, Callable[[], _ST]] = ...,
+        choices: Optional[List[_ST]] = ...,
+        verbose_name: Optional[str] = ...,
+        db_field: str = ...,
+        null: bool = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...

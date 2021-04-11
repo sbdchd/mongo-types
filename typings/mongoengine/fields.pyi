@@ -28,23 +28,10 @@ _T = TypeVar("_T")
 _ST = TypeVar("_ST")
 _GT = TypeVar("_GT")
 
-class GenericField(Generic[_ST, _GT], BaseField):
-    def __init__(
-        self,
-        required: bool = ...,
-        name: Optional[str] = ...,
-        primary_key: bool = ...,
-        help_text: Optional[str] = ...,
-        default: Union[_ST, None, Callable[[], _ST]] = ...,
-        choices: Optional[List[_ST]] = ...,
-        verbose_name: Optional[str] = ...,
-        db_field: str = ...,
-        null: bool = ...,
-    ) -> None: ...
-    def __set__(self, instance: Any, value: _ST) -> None: ...
-    def __get__(self, instance: Any, owner: Any) -> _GT: ...
+class GenericField(BaseField[Any, Any]):
+    ...
 
-class IntField(GenericField[_ST, _GT]):
+class IntField(BaseField[_ST, _GT]):
     @overload
     def __init__(
         self: IntField[Optional[int], Optional[int]],
@@ -339,17 +326,26 @@ class EmbeddedDocumentField(BaseField, Generic[_T]):
     def __new__(
         cls,
         field: Type[_T],
-        required: Literal[True] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        help_text: str = ...,
+    ) -> EmbeddedDocumentField[Optional[_T]]: ...
+    @overload
+    def __new__(
+        cls,
+        field: Type[_T],
+        required: Literal[False] = ...,
+        default: Union[_T, Callable[[], _T]] = ...,
         help_text: str = ...,
     ) -> EmbeddedDocumentField[_T]: ...
     @overload
     def __new__(
         cls,
         field: Type[_T],
-        required: Literal[False] = ...,
+        required: Literal[True] = ...,
         default: Union[_T, Callable[[], _T], None] = ...,
         help_text: str = ...,
-    ) -> EmbeddedDocumentField[Optional[_T]]: ...
+    ) -> EmbeddedDocumentField[_T]: ...
     def __set__(self, instance: Any, value: Optional[_T]) -> None: ...
     @overload
     def __get__(self: EmbeddedDocumentField[_T], instance: Any, owner: Any) -> _T: ...
