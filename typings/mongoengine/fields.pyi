@@ -20,7 +20,7 @@ from uuid import UUID
 
 from bson import ObjectId
 from mongoengine.base import BaseField
-from mongoengine.document import Document
+from mongoengine.document import Document, EmbeddedDocument
 from typing_extensions import Literal
 
 _T = TypeVar("_T")
@@ -28,122 +28,513 @@ _T = TypeVar("_T")
 _ST = TypeVar("_ST")
 _GT = TypeVar("_GT")
 
-class GenericField(BaseField[Any, Any]):
-    ...
-
-class IntField(BaseField[_ST, _GT]):
+class StringField(Generic[_ST, _GT], BaseField):
     @overload
     def __init__(
-        self: IntField[Optional[int], Optional[int]],
-        required: Literal[False] = ...,
+        self: StringField[Optional[str], Optional[str]],
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
         name: Optional[str] = ...,
-        primary_key: Literal[False] = ...,
-        help_text: Optional[str] = ...,
+        required: Literal[False] = ...,
         default: None = ...,
-        choices: Optional[List[int]] = ...,
-        verbose_name: Optional[str] = ...,
-        min: int = ...,
-        max: int = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[str]] = ...,
         null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
     ) -> None: ...
     @overload
     def __init__(
-        self: IntField[Optional[int], int],
+        self: StringField[Optional[str], str],
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
         required: Literal[False] = ...,
-        name: Optional[str] = ...,
+        default: Union[str, Callable[[], str]] = ...,
         primary_key: Literal[False] = ...,
-        help_text: Optional[str] = ...,
-        default: Union[int, Callable[[], int]] = ...,
-        choices: Optional[List[int]] = ...,
-        verbose_name: Optional[str] = ...,
-        min: int = ...,
-        max: int = ...,
+        choices: Optional[List[str]] = ...,
         null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
     ) -> None: ...
     @overload
     def __init__(
-        self: IntField[int, int],
+        self: StringField[str, str],
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
         required: Literal[True] = ...,
-        name: Optional[str] = ...,
+        default: Union[str, Callable[[], str], None] = ...,
         primary_key: Literal[False] = ...,
-        help_text: Optional[str] = ...,
-        default: Union[int, Callable[[], int], None] = ...,
-        choices: Optional[List[int]] = ...,
-        verbose_name: Optional[str] = ...,
-        min: int = ...,
-        max: int = ...,
+        choices: Optional[List[str]] = ...,
         null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
     ) -> None: ...
     @overload
     def __init__(
-        self: IntField[int, int],
-        required: bool = ...,
+        self: StringField[str, str],
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
         name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[str, Callable[[], str], None] = ...,
         primary_key: Literal[True] = ...,
-        help_text: Optional[str] = ...,
-        default: Union[int, Callable[[], int], None] = ...,
-        choices: Optional[List[int]] = ...,
-        verbose_name: Optional[str] = ...,
-        min: int = ...,
-        max: int = ...,
+        choices: Optional[List[str]] = ...,
         null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
     ) -> None: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
-class DecimalField(GenericField[Decimal, Decimal]):
-    pass
-
-class EmailField(GenericField[str, str]):
-    def validate(self, value: str) -> None: ...
-
-class FloatField(GenericField[float, float]):
-    pass
-
-# @dataclass(frozen=True)
-class StringField(GenericField[str, str]):
+class EmailField(StringField[_ST, _GT]):
+    @overload
     def __init__(
-        self,
-        required: bool = ...,
-        name: Optional[str] = ...,
-        primary_key: bool = ...,
-        help_text: Optional[str] = ...,
-        default: Union[str, Callable[[], str]] = ...,
-        choices: Optional[Sequence[str]] = ...,
-        blank: bool = ...,
-        verbose_name: Optional[str] = ...,
+        self: EmailField[Optional[str], Optional[str]],
+        domain_whitelist: Optional[List[str]] = ...,
+        allow_utf8_user: bool = ...,
+        allow_ip_domain: bool = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
         db_field: str = ...,
-        regex: str = ...,
-        min_length: int = ...,
-        max_length: int = ...,
-        unique_with: str = ...,
-        null: bool = ...,
-    ) -> None: ...
-
-# TODO(sbdchd): we can make this generic if we want better typing for assignment
-#     workflow = fields.ReferenceField("Dialog")
-# if we monkey patch we can make this generic like:
-#     workflow = fields.ReferenceField[Dialog]("Dialog")
-
-class ReferenceField(GenericField[Any, Any]):
-    def __init__(
-        self,
-        model: str,
-        required: bool = ...,
         name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-        blank: bool = ...,
     ) -> None: ...
-    def __getitem__(self, arg: Any) -> Any: ...
+    @overload
+    def __init__(
+        self: EmailField[Optional[str], str],
+        domain_whitelist: Optional[List[str]] = ...,
+        allow_utf8_user: bool = ...,
+        allow_ip_domain: bool = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[str, Callable[[], str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: EmailField[str, str],
+        domain_whitelist: Optional[List[str]] = ...,
+        allow_utf8_user: bool = ...,
+        allow_ip_domain: bool = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: Union[str, Callable[[], str], None] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: EmailField[str, str],
+        domain_whitelist: Optional[List[str]] = ...,
+        allow_utf8_user: bool = ...,
+        allow_ip_domain: bool = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[str, Callable[[], str], None] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[List[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
-class BooleanField(GenericField[bool, bool]):
-    pass
+class IntField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __init__(
+        self: IntField[Optional[int], Optional[int]],
+        min_value: int = ...,
+        max_value: int = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[int]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: IntField[Optional[int], int],
+        min_value: int = ...,
+        max_value: int = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[int, Callable[[], int]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[int]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: IntField[int, int],
+        min_value: int = ...,
+        max_value: int = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: Union[int, Callable[[], int], None] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[int]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: IntField[int, int],
+        min_value: int = ...,
+        max_value: int = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[int, Callable[[], int], None] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[List[int]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
-class DateTimeField(GenericField[datetime, datetime]):
-    pass
+class FloatField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __init__(
+        self: FloatField[Optional[float], Optional[float]],
+        min_value: float = ...,
+        max_value: float = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[float]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: FloatField[Optional[float], float],
+        min_value: float = ...,
+        max_value: float = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[float, Callable[[], float]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[float]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: FloatField[float, float],
+        min_value: float = ...,
+        max_value: float = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: Union[float, Callable[[], float], None] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[float]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: FloatField[float, float],
+        min_value: float = ...,
+        max_value: float = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[float, Callable[[], float], None] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[List[float]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
-class DynamicField(GenericField[Any, Any]):
-    pass
+class DecimalField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __init__(
+        self: DecimalField[Optional[Decimal], Optional[Decimal]],
+        min_value: Decimal = ...,
+        max_value: Decimal = ...,
+        force_string: bool = ...,
+        precision: int = ...,
+        rounding: str = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[Decimal]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: DecimalField[Optional[Decimal], Decimal],
+        min_value: Decimal = ...,
+        max_value: Decimal = ...,
+        force_string: bool = ...,
+        precision: int = ...,
+        rounding: str = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[Decimal, Callable[[], Decimal]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[Decimal]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: DecimalField[Decimal, Decimal],
+        min_value: Decimal = ...,
+        max_value: Decimal = ...,
+        force_string: bool = ...,
+        precision: int = ...,
+        rounding: str = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: Union[Decimal, Callable[[], Decimal], None] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[Decimal]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: DecimalField[Decimal, Decimal],
+        min_value: Decimal = ...,
+        max_value: Decimal = ...,
+        force_string: bool = ...,
+        precision: int = ...,
+        rounding: str = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[Decimal, Callable[[], Decimal], None] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[List[Decimal]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
+
+class BooleanField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __init__(
+        self: BooleanField[Optional[bool], Optional[bool]],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        primary_key: bool = ...,
+        choices: Optional[List[bool]] = ...,
+        null: Literal[False] = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: BooleanField[Optional[bool], bool],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[bool, Callable[[], bool]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[bool]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: BooleanField[bool, bool],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: Union[bool, None, Callable[[], bool]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[bool]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: BooleanField[bool, bool],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[bool, None, Callable[[], bool]] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[List[bool]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
+
+class DateTimeField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __init__(
+        self: DateTimeField[Optional[datetime], Optional[datetime]],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[datetime]] = ...,
+        null: Literal[False] = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: DateTimeField[Optional[datetime], datetime],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[datetime, Callable[[], datetime]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[datetime]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: DateTimeField[datetime, datetime],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: Union[datetime, None, Callable[[], datetime]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[datetime]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: DateTimeField[datetime, datetime],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[datetime, None, Callable[[], datetime]] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[List[datetime]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
+
+_Field = TypeVar("_Field")
+
+_M = TypeVar("_M")
+
+class EmbeddedDocumentField(Generic[_Field], BaseField):
+    @overload
+    def __new__(
+        cls,
+        document_type: Type[_Field],
+        required: Literal[False] = ...,
+        default: None = ...,
+        help_text: str = ...,
+    ) -> EmbeddedDocumentField[Optional[_Field]]: ...
+    @overload
+    def __new__(
+        cls,
+        document_type: Type[_Field],
+        required: Literal[False] = ...,
+        default: Union[_Field, Callable[[], _Field], Type[_Field]] = ...,
+        help_text: str = ...,
+    ) -> EmbeddedDocumentField[_Field]: ...
+    @overload
+    def __new__(
+        cls,
+        document_type: Type[_Field],
+        required: Literal[True] = ...,
+        default: Union[_Field, Callable[[], _Field], Type[_Field], None] = ...,
+        help_text: str = ...,
+    ) -> EmbeddedDocumentField[_Field]: ...
+    @overload
+    def __set__(self: EmbeddedDocumentField[_M], instance: Any, value: _M) -> None: ...
+    @overload
+    def __set__(
+        self: EmbeddedDocumentField[Optional[_M]], instance: Any, value: Optional[_M]
+    ) -> None: ...
+    @overload
+    def __get__(self: EmbeddedDocumentField[_M], instance: Any, owner: Any) -> _M: ...
+    @overload
+    def __get__(
+        self: EmbeddedDocumentField[Optional[_M]], instance: Any, owner: Any
+    ) -> Optional[_M]: ...
+
+class DynamicField(BaseField): ...
 
 class DictField(BaseField, Generic[_T]):
     # not sure we need the init method overloads

@@ -2,7 +2,6 @@ from typing import (
     Any,
     Callable,
     Dict,
-    Generic,
     List,
     Optional,
     Tuple,
@@ -35,22 +34,19 @@ class BaseDocument:
         created: bool = ...,
     ) -> U: ...
 
-_ST = TypeVar("_ST")
-_GT = TypeVar("_GT")
-
-class BaseField(Generic[_ST, _GT]):
-    def __init__(
-        self,
+class BaseField:
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: bool = ...,
-        default: Union[_ST, None, Callable[[], _ST]] = ...,
+        default: Union[Any, None, Callable[[], Any]] = ...,
         primary_key: bool = ...,
-        choices: Optional[List[_ST]] = ...,
+        choices: Optional[List[Any]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
-    def __set__(self, instance: Any, value: _ST) -> None: ...
-    def __get__(self, instance: Any, owner: Any) -> _GT: ...
-    def validate(self, value: _ST, clean: bool = ...) -> None: ...
+    ) -> BaseField: ...
+    def __set__(self, instance: Any, value: Any) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> Any: ...
+    def validate(self, value: Any, clean: bool = ...) -> None: ...
