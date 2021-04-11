@@ -90,35 +90,7 @@ class IntField(GenericField[_ST, _GT]):
     @overload
     def __init__(
         self: IntField[int, int],
-        required: Literal[False] = ...,
-        name: Optional[str] = ...,
-        primary_key: Literal[True] = ...,
-        help_text: Optional[str] = ...,
-        default: None = ...,
-        choices: Optional[List[int]] = ...,
-        verbose_name: Optional[str] = ...,
-        min: int = ...,
-        max: int = ...,
-        null: bool = ...,
-    ) -> None: ...
-    @overload
-    def __init__(
-        self: IntField[int, int],
-        required: Literal[False] = ...,
-        name: Optional[str] = ...,
-        primary_key: Literal[True] = ...,
-        help_text: Optional[str] = ...,
-        default: Union[int, Callable[[], int]] = ...,
-        choices: Optional[List[int]] = ...,
-        verbose_name: Optional[str] = ...,
-        min: int = ...,
-        max: int = ...,
-        null: bool = ...,
-    ) -> None: ...
-    @overload
-    def __init__(
-        self: IntField[int, int],
-        required: Literal[True] = ...,
+        required: bool = ...,
         name: Optional[str] = ...,
         primary_key: Literal[True] = ...,
         help_text: Optional[str] = ...,
