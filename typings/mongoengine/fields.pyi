@@ -492,47 +492,45 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
-_Field = TypeVar("_Field")
-
-_M = TypeVar("_M")
-
-class EmbeddedDocumentField(Generic[_Field], BaseField):
+class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
-        document_type: Type[_Field],
+        document_type: Type[_T],
         required: Literal[False] = ...,
         default: None = ...,
         help_text: str = ...,
-    ) -> EmbeddedDocumentField[Optional[_Field]]: ...
+    ) -> EmbeddedDocumentField[Optional[_T], Optional[_T]]: ...
     @overload
     def __new__(
         cls,
-        document_type: Type[_Field],
+        document_type: Type[_T],
         required: Literal[False] = ...,
-        default: Union[_Field, Callable[[], _Field], Type[_Field]] = ...,
+        default: Union[_T, Callable[[], _T], Type[_T]] = ...,
         help_text: str = ...,
-    ) -> EmbeddedDocumentField[_Field]: ...
+    ) -> EmbeddedDocumentField[Optional[_T], _T]: ...
     @overload
     def __new__(
         cls,
-        document_type: Type[_Field],
+        document_type: Type[_T],
         required: Literal[True] = ...,
-        default: Union[_Field, Callable[[], _Field], Type[_Field], None] = ...,
+        default: None = ...,
         help_text: str = ...,
-    ) -> EmbeddedDocumentField[_Field]: ...
+    ) -> EmbeddedDocumentField[_T, _T]: ...
     @overload
-    def __set__(self: EmbeddedDocumentField[_M], instance: Any, value: _M) -> None: ...
-    @overload
+    def __new__(
+        cls,
+        document_type: Type[_T],
+        required: Literal[True] = ...,
+        default: Union[_T, Callable[[], _T], Type[_T]] = ...,
+        help_text: str = ...,
+    ) -> EmbeddedDocumentField[Optional[_T], _T]: ...
     def __set__(
-        self: EmbeddedDocumentField[Optional[_M]], instance: Any, value: Optional[_M]
+        self: EmbeddedDocumentField[_ST, Any], instance: Any, value: _ST
     ) -> None: ...
-    @overload
-    def __get__(self: EmbeddedDocumentField[_M], instance: Any, owner: Any) -> _M: ...
-    @overload
     def __get__(
-        self: EmbeddedDocumentField[Optional[_M]], instance: Any, owner: Any
-    ) -> Optional[_M]: ...
+        self: EmbeddedDocumentField[Any, _GT], instance: Any, owner: Any
+    ) -> _GT: ...
 
 class DynamicField(BaseField): ...
 
