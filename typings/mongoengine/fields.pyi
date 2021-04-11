@@ -19,7 +19,7 @@ from typing import (
 from uuid import UUID
 
 from bson import ObjectId
-from mongoengine.base import BaseField
+from mongoengine.base import BaseField, ComplexBaseField
 from mongoengine.document import Document, EmbeddedDocument
 from typing_extensions import Literal
 
@@ -27,6 +27,62 @@ _T = TypeVar("_T")
 
 _ST = TypeVar("_ST")
 _GT = TypeVar("_GT")
+
+class ObjectIdField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __init__(
+        self: ObjectIdField[Optional[ObjectId], Optional[ObjectId]],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        primary_key: bool = ...,
+        choices: Optional[List[ObjectId]] = ...,
+        null: Literal[False] = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: ObjectIdField[Optional[ObjectId], ObjectId],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[ObjectId, Callable[[], ObjectId]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[ObjectId]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: ObjectIdField[ObjectId, ObjectId],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: Union[ObjectId, None, Callable[[], ObjectId]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[ObjectId]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: ObjectIdField[ObjectId, ObjectId],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[ObjectId, None, Callable[[], ObjectId]] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[List[ObjectId]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class StringField(Generic[_ST, _GT], BaseField):
     @overload
@@ -624,10 +680,10 @@ class EmbeddedDocumentListField(BaseField, Generic[_T]):
     def __set__(self, instance: Any, value: List[_T]) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> List[_T]: ...
 
-class LazyReference(GenericField[Any, Any]):
-    pass
+class LazyReference(Generic[_T], BaseField):
+    def __getitem__(self, arg: Any) -> LazyReference[_T]: ...
 
-class LazyReferenceField(GenericField[Any, Any]):
+class LazyReferenceField(BaseField):
     def __init__(
         self,
         name: Union[str, Type[Document]],
@@ -635,115 +691,81 @@ class LazyReferenceField(GenericField[Any, Any]):
         required: bool = ...,
         help_text: Optional[str] = ...,
     ) -> None: ...
+    def __getitem__(self, arg: Any) -> LazyReference[Any]: ...
 
-class ListField(BaseField, Generic[_T]):
-    # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
+class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __init__(
-        self: ListField[StringField],
-        field: _T = ...,
-        required: bool = ...,
-        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
-        verbose_name: str = ...,
-        help_text: str = ...,
-        null: bool = ...,
-    ) -> None: ...
-    @overload
-    def __init__(
-        self: ListField[DictField[Any]],
-        field: _T = ...,
-        required: bool = ...,
-        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
-        verbose_name: str = ...,
-        help_text: str = ...,
-        null: bool = ...,
-    ) -> None: ...
-    @overload
-    def __init__(
-        self: ListField[_T],
-        field: _T = ...,
-        required: bool = ...,
-        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
-        verbose_name: str = ...,
-        help_text: str = ...,
-        null: bool = ...,
-    ) -> None: ...
-    def __getitem__(self, arg: Any) -> _T: ...
-    def __iter__(self) -> Iterator[_T]: ...
-    @overload
-    def __set__(
-        self: ListField[StringField], instance: Any, value: Optional[List[str]]
-    ) -> None: ...
-    @overload
-    def __set__(
-        self: ListField[DictField[Any]], instance: Any, value: List[Dict[str, Any]]
-    ) -> None: ...
-    @overload
-    def __set__(self: ListField[_T], instance: Any, value: List[_T]) -> None: ...
-    @overload
-    def __get__(
-        self: ListField[DynamicField], instance: Any, owner: Any
-    ) -> List[Any]: ...
-    @overload
-    def __get__(
-        self: ListField[StringField], instance: Any, owner: Any
-    ) -> List[str]: ...
-    @overload
-    def __get__(
-        self: ListField[DictField[Any]], instance: Any, owner: Any
-    ) -> List[Dict[str, Any]]: ...
-
-class UUIDField(GenericField[UUID, UUID]):
-    def __init__(
-        self,
-        required: bool = ...,
-        name: Optional[str] = ...,
-        primary_key: bool = ...,
-        help_text: Optional[str] = ...,
-        default: Union[UUID, None, Callable[[], UUID]] = ...,
-        choices: Optional[List[UUID]] = ...,
-        verbose_name: Optional[str] = ...,
+        self: UUIDField[Optional[UUID], Optional[UUID]],
         db_field: str = ...,
-        binary: bool = ...,
-    ) -> None: ...
-
-class ObjectIdField(GenericField[ObjectId, ObjectId]):
-    pass
-
-class EmbeddedDocumentField(BaseField, Generic[_T]):
-    @overload
-    def __new__(
-        cls,
-        field: Type[_T],
+        name: Optional[str] = ...,
         required: Literal[False] = ...,
         default: None = ...,
-        help_text: str = ...,
-    ) -> EmbeddedDocumentField[Optional[_T]]: ...
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[UUID]] = ...,
+        null: Literal[False] = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
     @overload
-    def __new__(
-        cls,
-        field: Type[_T],
+    def __init__(
+        self: UUIDField[Optional[UUID], UUID],
+        db_field: str = ...,
+        name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[_T, Callable[[], _T]] = ...,
-        help_text: str = ...,
-    ) -> EmbeddedDocumentField[_T]: ...
+        default: Union[UUID, Callable[[], UUID]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[UUID]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
     @overload
-    def __new__(
-        cls,
-        field: Type[_T],
+    def __init__(
+        self: UUIDField[UUID, UUID],
+        db_field: str = ...,
+        name: Optional[str] = ...,
         required: Literal[True] = ...,
-        default: Union[_T, Callable[[], _T], None] = ...,
-        help_text: str = ...,
-    ) -> EmbeddedDocumentField[_T]: ...
-    def __set__(self, instance: Any, value: Optional[_T]) -> None: ...
+        default: Union[UUID, None, Callable[[], UUID]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[List[UUID]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
     @overload
-    def __get__(self: EmbeddedDocumentField[_T], instance: Any, owner: Any) -> _T: ...
-    @overload
-    def __get__(
-        self: EmbeddedDocumentField[Optional[_T]], instance: Any, owner: Any
-    ) -> Optional[_T]: ...
+    def __init__(
+        self: UUIDField[UUID, UUID],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[UUID, None, Callable[[], UUID]] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[List[UUID]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 _MapType = Dict[str, Any]
 
 class MapField(DictField[_T]):
     pass
+
+# TODO(sbdchd): we can make this generic if we want better typing for assignment
+#     workflow = fields.ReferenceField("Dialog")
+# if we monkey patch we can make this generic like:
+#     workflow = fields.ReferenceField[Dialog]("Dialog")
+
+class ReferenceField(BaseField):
+    def __init__(
+        self,
+        model: str,
+        required: bool = ...,
+        name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+        blank: bool = ...,
+    ) -> None: ...
+    def __getitem__(self, arg: Any) -> Any: ...
