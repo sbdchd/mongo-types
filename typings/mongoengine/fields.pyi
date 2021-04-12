@@ -593,7 +593,7 @@ class DynamicField(BaseField): ...
 class ListField(Generic[_T], ComplexBaseField):
     # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
     @overload
-    def __new__(
+    def __new__(  # type: ignore
         cls,
         field: _T = ...,
         required: bool = ...,
@@ -603,7 +603,7 @@ class ListField(Generic[_T], ComplexBaseField):
         null: bool = ...,
     ) -> ListField[StringField[Any, Any]]: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore
         cls,
         field: _T = ...,
         required: bool = ...,
@@ -613,7 +613,7 @@ class ListField(Generic[_T], ComplexBaseField):
         null: bool = ...,
     ) -> ListField[DictField[Any]]: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore
         cls,
         field: _T = ...,
         required: bool = ...,
@@ -652,8 +652,8 @@ class ListField(Generic[_T], ComplexBaseField):
 class DictField(Generic[_T], ComplexBaseField):
     # not sure we need the init method overloads
     @overload
-    def __init__(
-        self: DictField[StringField[Any, Any]],
+    def __new__(  # type: ignore
+        cls,
         field: _T = ...,
         required: bool = ...,
         name: Optional[str] = ...,
@@ -663,10 +663,10 @@ class DictField(Generic[_T], ComplexBaseField):
         choices: Optional[List[Dict[str, str]]] = ...,
         verbose_name: Optional[str] = ...,
         db_field: str = ...,
-    ) -> None: ...
+    ) -> DictField[StringField[Any, Any]]: ...
     @overload
-    def __init__(
-        self: DictField[ListField[StringField[Any, Any]]],
+    def __new__(
+        cls,
         field: _T = ...,
         required: bool = ...,
         name: Optional[str] = ...,
@@ -678,10 +678,10 @@ class DictField(Generic[_T], ComplexBaseField):
         choices: Optional[List[Dict[str, List[str]]]] = ...,
         verbose_name: Optional[str] = ...,
         db_field: str = ...,
-    ) -> None: ...
+    ) -> DictField[ListField[StringField[Any, Any]]]: ...
     @overload
-    def __init__(
-        self: DictField[_T],
+    def __new__(
+        cls,
         field: _T = ...,
         required: bool = ...,
         name: Optional[str] = ...,
@@ -691,7 +691,7 @@ class DictField(Generic[_T], ComplexBaseField):
         choices: Optional[List[Dict[str, Any]]] = ...,
         verbose_name: Optional[str] = ...,
         db_field: str = ...,
-    ) -> None: ...
+    ) -> DictField[_T]: ...
     # TODO(sbdchd): use overloads to ensure we can only use nulls when
     # null=True is passed in
     @overload
@@ -730,14 +730,14 @@ class DictField(Generic[_T], ComplexBaseField):
     ) -> Dict[str, List[str]]: ...
     def __getitem__(self, arg: Any) -> _T: ...
 
-class EmbeddedDocumentListField(BaseField, Generic[_T]):
-    def __init__(
-        self,
+class EmbeddedDocumentListField(Generic[_T], BaseField):
+    def __new__(
+        cls,
         kind: Type[_T],
         required: bool = ...,
         default: Optional[Any] = ...,
         help_text: str = ...,
-    ) -> None: ...
+    ) -> EmbeddedDocumentListField[_T]: ...
     def __getitem__(self, arg: Any) -> _T: ...
     def __iter__(self) -> Iterator[_T]: ...
     def __set__(self, instance: Any, value: List[_T]) -> None: ...
