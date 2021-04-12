@@ -10,7 +10,6 @@ from typing import (
     Iterator,
     List,
     Optional,
-    Sequence,
     Type,
     TypeVar,
     Union,
@@ -20,7 +19,7 @@ from uuid import UUID
 
 from bson import ObjectId
 from mongoengine.base import BaseField, ComplexBaseField
-from mongoengine.document import Document, EmbeddedDocument
+from mongoengine.document import Document
 from typing_extensions import Literal
 
 _T = TypeVar("_T")
