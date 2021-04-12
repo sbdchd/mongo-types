@@ -760,6 +760,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __init__(
         self: UUIDField[Optional[UUID], Optional[UUID]],
+        binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -773,6 +774,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __init__(
         self: UUIDField[Optional[UUID], UUID],
+        binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -786,6 +788,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __init__(
         self: UUIDField[UUID, UUID],
+        binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[True] = ...,
@@ -799,6 +802,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __init__(
         self: UUIDField[UUID, UUID],
+        binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: bool = ...,

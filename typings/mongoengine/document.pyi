@@ -21,7 +21,7 @@ class Document(BaseDocument):
     _meta: _UnderMetaDict
     _fields: Dict[str, Any]
 
-    pk = StringField()
+    pk = StringField(required=True)
     @classmethod
     def _get_collection(cls) -> Collection: ...
     # NOTE(sbdchd): if we are willing to change all Document.objects.filter()
