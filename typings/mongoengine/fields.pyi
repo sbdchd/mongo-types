@@ -593,35 +593,35 @@ class DynamicField(BaseField): ...
 class ListField(Generic[_T], ComplexBaseField):
     # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
     @overload
-    def __init__(
-        self: ListField[StringField[Any, Any]],
+    def __new__(
+        cls,
         field: _T = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
         help_text: str = ...,
         null: bool = ...,
-    ) -> None: ...
+    ) -> ListField[StringField[Any, Any]]: ...
     @overload
-    def __init__(
-        self: ListField[DictField[Any]],
+    def __new__(
+        cls,
         field: _T = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
         help_text: str = ...,
         null: bool = ...,
-    ) -> None: ...
+    ) -> ListField[DictField[Any]]: ...
     @overload
-    def __init__(
-        self: ListField[_T],
+    def __new__(
+        cls,
         field: _T = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
         help_text: str = ...,
         null: bool = ...,
-    ) -> None: ...
+    ) -> ListField[_T]: ...
     def __getitem__(self, arg: Any) -> _T: ...
     def __iter__(self) -> Iterator[_T]: ...
     @overload
