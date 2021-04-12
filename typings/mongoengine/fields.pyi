@@ -590,11 +590,70 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
 
 class DynamicField(BaseField): ...
 
-class DictField(BaseField, Generic[_T]):
+class ListField(Generic[_T], ComplexBaseField):
+    # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
+    @overload
+    def __init__(
+        self: ListField[StringField[Any, Any]],
+        field: _T = ...,
+        required: bool = ...,
+        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
+        verbose_name: str = ...,
+        help_text: str = ...,
+        null: bool = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: ListField[DictField[Any]],
+        field: _T = ...,
+        required: bool = ...,
+        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
+        verbose_name: str = ...,
+        help_text: str = ...,
+        null: bool = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: ListField[_T],
+        field: _T = ...,
+        required: bool = ...,
+        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
+        verbose_name: str = ...,
+        help_text: str = ...,
+        null: bool = ...,
+    ) -> None: ...
+    def __getitem__(self, arg: Any) -> _T: ...
+    def __iter__(self) -> Iterator[_T]: ...
+    @overload
+    def __set__(
+        self: ListField[StringField[Any, Any]],
+        instance: Any,
+        value: Optional[List[str]],
+    ) -> None: ...
+    @overload
+    def __set__(
+        self: ListField[DictField[Any]], instance: Any, value: List[Dict[str, Any]]
+    ) -> None: ...
+    @overload
+    def __set__(self: ListField[_T], instance: Any, value: List[_T]) -> None: ...
+    @overload
+    def __get__(
+        self: ListField[DynamicField], instance: Any, owner: Any
+    ) -> List[Any]: ...
+    @overload
+    def __get__(
+        self: ListField[StringField[Any, Any]], instance: Any, owner: Any
+    ) -> List[str]: ...
+    @overload
+    def __get__(
+        self: ListField[DictField[Any]], instance: Any, owner: Any
+    ) -> List[Dict[str, Any]]: ...
+
+class DictField(Generic[_T], ComplexBaseField):
     # not sure we need the init method overloads
     @overload
     def __init__(
-        self: DictField[StringField],
+        self: DictField[StringField[Any, Any]],
         field: _T = ...,
         required: bool = ...,
         name: Optional[str] = ...,
@@ -607,7 +666,7 @@ class DictField(BaseField, Generic[_T]):
     ) -> None: ...
     @overload
     def __init__(
-        self: DictField[ListField[StringField]],
+        self: DictField[ListField[StringField[Any, Any]]],
         field: _T = ...,
         required: bool = ...,
         name: Optional[str] = ...,
@@ -637,11 +696,13 @@ class DictField(BaseField, Generic[_T]):
     # null=True is passed in
     @overload
     def __set__(
-        self: DictField[StringField], instance: object, value: Optional[Dict[str, str]]
+        self: DictField[StringField[Any, Any]],
+        instance: object,
+        value: Optional[Dict[str, str]],
     ) -> None: ...
     @overload
     def __set__(
-        self: DictField[ListField[StringField]],
+        self: DictField[ListField[StringField[Any, Any]]],
         instance: object,
         value: Optional[Dict[str, List[str]]],
     ) -> None: ...
@@ -659,11 +720,13 @@ class DictField(BaseField, Generic[_T]):
     ) -> Dict[str, Any]: ...
     @overload
     def __get__(
-        self: DictField[StringField], instance: object, owner: object
+        self: DictField[StringField[Any, Any]], instance: object, owner: object
     ) -> Dict[str, str]: ...
     @overload
     def __get__(
-        self: DictField[ListField[StringField]], instance: object, owner: object
+        self: DictField[ListField[StringField[Any, Any]]],
+        instance: object,
+        owner: object,
     ) -> Dict[str, List[str]]: ...
     def __getitem__(self, arg: Any) -> _T: ...
 
