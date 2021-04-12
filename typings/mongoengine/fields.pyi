@@ -593,9 +593,9 @@ class DynamicField(BaseField): ...
 class ListField(Generic[_T], ComplexBaseField):
     # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
     @overload
-    def __new__(  # type: ignore
+    def __new__(
         cls,
-        field: _T = ...,
+        field: StringField[Any, Any] = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
@@ -603,9 +603,9 @@ class ListField(Generic[_T], ComplexBaseField):
         null: bool = ...,
     ) -> ListField[StringField[Any, Any]]: ...
     @overload
-    def __new__(  # type: ignore
+    def __new__(
         cls,
-        field: _T = ...,
+        field: DictField[Any],
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
@@ -613,15 +613,15 @@ class ListField(Generic[_T], ComplexBaseField):
         null: bool = ...,
     ) -> ListField[DictField[Any]]: ...
     @overload
-    def __new__(  # type: ignore
+    def __new__(
         cls,
-        field: _T = ...,
+        field: Any,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
         help_text: str = ...,
         null: bool = ...,
-    ) -> ListField[_T]: ...
+    ) -> ListField[Any]: ...
     def __getitem__(self, arg: Any) -> _T: ...
     def __iter__(self) -> Iterator[_T]: ...
     @overload
@@ -665,7 +665,7 @@ class DictField(Generic[_T], ComplexBaseField):
         db_field: str = ...,
     ) -> DictField[StringField[Any, Any]]: ...
     @overload
-    def __new__(
+    def __new__(  # type: ignore [misc]
         cls,
         field: _T = ...,
         required: bool = ...,
