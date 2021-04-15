@@ -711,18 +711,49 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
 
 class DynamicField(BaseField): ...
 
-class ListField(Generic[_T], ComplexBaseField):
+_ST_INNER = TypeVar("_ST_INNER")
+_GT_INNER = TypeVar("_GT_INNER")
+
+class ListField(Generic[_ST, _GT], ComplexBaseField):
     # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
     @overload
     def __new__(
         cls,
-        field: StringField[Any, Any] = ...,
-        required: bool = ...,
-        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
+        field: StringField[_ST_INNER, _GT_INNER] = ...,
+        required: Literal[False] = ...,
         verbose_name: str = ...,
         help_text: str = ...,
         null: bool = ...,
-    ) -> ListField[StringField[Any, Any]]: ...
+    ) -> ListField[Optional[List[_ST_INNER]], Optional[List[_GT_INNER]]]: ...
+    @overload
+    def __new__(
+        cls,
+        field: StringField[_ST_INNER, _GT_INNER] = ...,
+        required: Literal[False] = ...,
+        default: Union[List[_ST_INNER], Callable[[], List[_ST_INNER]]] = ...,
+        verbose_name: str = ...,
+        help_text: str = ...,
+        null: bool = ...,
+    ) -> ListField[Optional[List[_ST_INNER]], List[_GT_INNER]]: ...
+    @overload
+    def __new__(
+        cls,
+        field: StringField[_ST_INNER, _GT_INNER] = ...,
+        required: Literal[True] = ...,
+        verbose_name: str = ...,
+        help_text: str = ...,
+        null: bool = ...,
+    ) -> ListField[List[_ST_INNER], List[_GT_INNER]]: ...
+    @overload
+    def __new__(
+        cls,
+        field: StringField[_ST_INNER, _GT_INNER] = ...,
+        required: Literal[True] = ...,
+        default: Union[List[_ST_INNER], Callable[[], List[_ST_INNER]]] = ...,
+        verbose_name: str = ...,
+        help_text: str = ...,
+        null: bool = ...,
+    ) -> ListField[Optional[List[_ST_INNER]], List[_GT_INNER]]: ...
     @overload
     def __new__(
         cls,
@@ -732,43 +763,13 @@ class ListField(Generic[_T], ComplexBaseField):
         verbose_name: str = ...,
         help_text: str = ...,
         null: bool = ...,
-    ) -> ListField[DictField[Any]]: ...
-    @overload
-    def __new__(
-        cls,
-        field: Any,
-        required: bool = ...,
-        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
-        verbose_name: str = ...,
-        help_text: str = ...,
-        null: bool = ...,
-    ) -> ListField[Any]: ...
-    def __getitem__(self, arg: Any) -> _T: ...
-    def __iter__(self) -> Iterator[_T]: ...
-    @overload
+    ) -> ListField[Optional[List[Dict[Any, Any]]], Optional[List[Dict[Any, Any]]]]: ...
     def __set__(
-        self: ListField[StringField[Any, Any]],
+        self: ListField[_ST, _GT],
         instance: Any,
-        value: Optional[List[str]],
+        value: _ST,
     ) -> None: ...
-    @overload
-    def __set__(
-        self: ListField[DictField[Any]], instance: Any, value: List[Dict[str, Any]]
-    ) -> None: ...
-    @overload
-    def __set__(self: ListField[_T], instance: Any, value: List[_T]) -> None: ...
-    @overload
-    def __get__(
-        self: ListField[DynamicField], instance: Any, owner: Any
-    ) -> List[Any]: ...
-    @overload
-    def __get__(
-        self: ListField[StringField[Any, Any]], instance: Any, owner: Any
-    ) -> List[str]: ...
-    @overload
-    def __get__(
-        self: ListField[DictField[Any]], instance: Any, owner: Any
-    ) -> List[Dict[str, Any]]: ...
+    def __get__(self: ListField[_ST, _GT], instance: Any, owner: Any) -> _GT: ...
 
 class DictField(Generic[_T], ComplexBaseField):
     # not sure we need the init method overloads
