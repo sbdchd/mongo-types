@@ -852,18 +852,45 @@ class DictField(Generic[_T], ComplexBaseField):
     ) -> Dict[str, List[str]]: ...
     def __getitem__(self, arg: Any) -> _T: ...
 
-class EmbeddedDocumentListField(Generic[_T], BaseField):
+class EmbeddedDocumentListField(Generic[_ST, _GT], BaseField):
+    @overload
     def __new__(
         cls,
         kind: Type[_T],
-        required: bool = ...,
-        default: Optional[Any] = ...,
+        required: Literal[False] = ...,
         help_text: str = ...,
-    ) -> EmbeddedDocumentListField[_T]: ...
-    def __getitem__(self, arg: Any) -> _T: ...
-    def __iter__(self) -> Iterator[_T]: ...
-    def __set__(self, instance: Any, value: List[_T]) -> None: ...
-    def __get__(self, instance: Any, owner: Any) -> List[_T]: ...
+    ) -> EmbeddedDocumentListField[Optional[List[_T]], Optional[List[_T]]]: ...
+    @overload
+    def __new__(
+        cls,
+        kind: Type[_T],
+        required: Literal[False] = ...,
+        default: Union[List[_ST_INNER], Callable[[], List[_ST_INNER]]] = ...,
+        help_text: str = ...,
+    ) -> EmbeddedDocumentListField[Optional[List[_T]], List[_T]]: ...
+    @overload
+    def __new__(
+        cls,
+        kind: Type[_T],
+        required: Literal[True] = ...,
+        help_text: str = ...,
+    ) -> EmbeddedDocumentListField[List[_T], List[_T]]: ...
+    @overload
+    def __new__(
+        cls,
+        kind: Type[_T],
+        required: Literal[True] = ...,
+        default: Union[List[_ST_INNER], Callable[[], List[_ST_INNER]]] = ...,
+        help_text: str = ...,
+    ) -> EmbeddedDocumentListField[Optional[List[_T]], List[_T]]: ...
+    def __set__(
+        self: EmbeddedDocumentListField[_ST, _GT],
+        instance: Any,
+        value: _ST,
+    ) -> None: ...
+    def __get__(
+        self: EmbeddedDocumentListField[_ST, _GT], instance: Any, owner: Any
+    ) -> _GT: ...
 
 class LazyReference(Generic[_T], BaseField):
     def __getitem__(self, arg: Any) -> LazyReference[_T]: ...
