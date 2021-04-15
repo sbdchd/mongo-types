@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Tuple, Type, TypeVar
+from typing import Any, Callable, Dict, List, Optional, Tuple, Type, TypeVar, Union
 
 from bson import SON
 
@@ -25,4 +25,20 @@ class BaseDocument:
     ) -> U: ...
 
 class BaseField:
-    pass
+    def __new__(
+        cls,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[Any, None, Callable[[], Any]] = ...,
+        primary_key: bool = ...,
+        choices: Optional[List[Any]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> BaseField: ...
+    def __set__(self, instance: Any, value: Any) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> Any: ...
+    def validate(self, value: Any, clean: bool = ...) -> None: ...
+
+class ComplexBaseField(BaseField): ...

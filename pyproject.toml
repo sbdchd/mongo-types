@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mongo-types"
-version = "0.7.7"
+version = "0.8.0"
 description = "Type stubs for mongoengine w/ basic support for bson and pymongo"
 repository = "https://github.com/sbdchd/mongo-types"
 readme = "README.md"
