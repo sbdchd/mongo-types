@@ -1,6 +1,7 @@
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Iterable, List, Optional
 
 from bson.errors import InvalidDocument
+from bson.son import SON
 from typing_extensions import TypedDict
 
 class PyMongoError(Exception):
@@ -31,7 +32,7 @@ class _WriteError(TypedDict, total=False):
     index: int
     code: int
     errmsg: str
-    op: Dict[str, Any]
+    op: SON
 
 class _OpFailureDetails(TypedDict):
     nInserted: int
