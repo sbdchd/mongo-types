@@ -1,4 +1,15 @@
-from typing import Any, Callable, Dict, List, Optional, Tuple, Type, TypeVar, Union
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Iterable,
+    List,
+    Optional,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
+)
 
 from bson import SON
 
@@ -32,7 +43,7 @@ class BaseField:
         required: bool = ...,
         default: Union[Any, None, Callable[[], Any]] = ...,
         primary_key: bool = ...,
-        choices: Optional[List[Any]] = ...,
+        choices: Optional[Iterable[Any]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
