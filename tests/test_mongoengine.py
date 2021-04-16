@@ -189,6 +189,18 @@ def main() -> None:
     Post().reload()
 
 
+def test_choices() -> None:
+    roles = ("admin", "member", "viewer")
+    roles_set = {"admin", "member", "viewer"}
+
+    class Post:
+        role = fields.StringField(choices=roles)
+        role_set = fields.StringField(choices=roles_set)
+
+    p = Post()
+    assert p.role is None
+
+
 def test_bson() -> None:
     doc = {"foo": "bar", "buzz": True}
     data = BSON.encode(doc)
