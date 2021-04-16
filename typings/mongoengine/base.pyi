@@ -42,6 +42,8 @@ class BaseField:
         name: Optional[str] = ...,
         required: bool = ...,
         default: Union[Any, None, Callable[[], Any]] = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
         primary_key: bool = ...,
         choices: Optional[Iterable[Any]] = ...,
         null: bool = ...,
