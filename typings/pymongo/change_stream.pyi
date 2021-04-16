@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional
 from typing_extensions import Literal, TypedDict
 
 class _Document(TypedDict):
-    _data: bytes
+    _data: str
 
 class _DocumentKey(TypedDict):
     _id: str

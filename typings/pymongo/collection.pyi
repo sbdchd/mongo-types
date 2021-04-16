@@ -126,6 +126,7 @@ class Collection(BaseObject):
         batchSize: int = ...,
         collation: Optional[Collation] = ...,
         useCursor: bool = ...,
+        hint: Optional[Dict[str, int]] = ...,
     ) -> CommandCursor: ...
     def aggregate_raw_batches(
         self,
@@ -136,6 +137,7 @@ class Collection(BaseObject):
         batchSize: int = ...,
         collation: Optional[Collation] = ...,
         useCursor: bool = ...,
+        hint: Optional[Dict[str, int]] = ...,
     ) -> RawBatchCursor: ...
     def watch(
         self,
