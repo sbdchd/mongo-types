@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
+from enum import Enum
 from typing import (
     Any,
     Callable,
@@ -17,7 +18,6 @@ from typing import (
     overload,
 )
 from uuid import UUID
-from enum import Enum
 
 from bson import ObjectId
 from mongoengine.base import BaseField, ComplexBaseField
@@ -1069,7 +1069,6 @@ class ReferenceField(BaseField):
         blank: bool = ...,
     ) -> None: ...
     def __getitem__(self, arg: Any) -> Any: ...
-
 
 class EnumField(Generic[_ST, _GT], BaseField):
     @overload
