@@ -17,6 +17,7 @@ from typing import (
     overload,
 )
 from uuid import UUID
+from enum import Enum
 
 from bson import ObjectId
 from mongoengine.base import BaseField, ComplexBaseField
@@ -1068,3 +1069,88 @@ class ReferenceField(BaseField):
         blank: bool = ...,
     ) -> None: ...
     def __getitem__(self, arg: Any) -> Any: ...
+
+
+class EnumField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __init__(
+        self: EnumField[Optional[UUID], Optional[Enum]],
+        enum: Optional[Enum],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[Enum]] = ...,
+        null: Literal[False] = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: EnumField[Optional[Enum], Enum],
+        enum: Optional[Enum],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[Enum, Callable[[], Enum]] = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[Enum]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: EnumField[Enum, Enum],
+        enum: Optional[Enum],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[Enum]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: EnumField[Optional[Enum], Enum],
+        enum: Optional[Enum],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: Union[Enum, Callable[[], Enum]] = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[Enum]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self: EnumField[Enum, Enum],
+        enum: Optional[Enum],
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[Enum, None, Callable[[], Enum]] = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[Iterable[Enum]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> None: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
