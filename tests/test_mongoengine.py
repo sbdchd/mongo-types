@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime
 import types
+from enum import Enum
 from typing import Any, KeysView, Type, TypeVar, cast
 
 import mongoengine
@@ -50,6 +51,12 @@ class Recipe(Document):
     description = fields.StringField()
 
 
+class Font(Enum):
+    Helvetica = ("Helvetica",)
+    Arial = ("Arial",)
+    Times = "Times New Roman"
+
+
 class Post(Document):
     meta = {
         "collection": "posts",
@@ -87,6 +94,8 @@ class Post(Document):
         field=fields.StringField(required=True),
         help_text=("Map tag names to descriptions"),
     )
+
+    font = fields.EnumField(Font)
 
     def set_hidden(self, hidden: bool) -> None:
         self.hidden = hidden
