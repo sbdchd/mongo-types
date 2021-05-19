@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 import types
 from enum import Enum
-from typing import Any, KeysView, Type, TypeVar, cast
+from typing import Any, KeysView, Type, TypeVar, Union, cast
 
 import mongoengine
 import pymongo
@@ -96,6 +96,11 @@ class Post(Document):
     )
 
     font = fields.EnumField(Font)
+    font_required = fields.EnumField(Font, required=True)
+    font_default = fields.EnumField(Font, default=Font.Helvetica)
+    font_required_default = fields.EnumField(
+        Font, required=True, default=Font.Helvetica
+    )
 
     def set_hidden(self, hidden: bool) -> None:
         self.hidden = hidden
@@ -153,6 +158,21 @@ def main() -> None:
     first_post.tags.values()
     first_post.errors
     first_post.results
+    first_post.font
+
+    def log_optional_font(f: Union[Font, None]) -> None:
+        print(f)
+
+    log_optional_font(first_post.font)
+
+    def log_required_font(f: Font) -> None:
+        print(f)
+
+    log_required_font(first_post.font_required)
+    first_post.font_required_default = None
+
+    log_required_font(first_post.font_default)
+    first_post.font_default = None
 
     p = Post()
     p.validate()
