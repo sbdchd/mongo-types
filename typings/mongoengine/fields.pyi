@@ -1073,8 +1073,8 @@ class ReferenceField(BaseField):
 class EnumField(Generic[_ST, _GT], BaseField):
     @overload
     def __init__(
-        self: EnumField[Optional[Enum], Optional[Enum]],
-        enum: Optional[Enum],
+        self: EnumField[Optional[Type[Enum]], Optional[Type[Enum]]],
+        enum: Optional[Type[Enum]],
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -1082,7 +1082,7 @@ class EnumField(Generic[_ST, _GT], BaseField):
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
-        choices: Optional[Iterable[Enum]] = ...,
+        choices: Optional[Iterable[Type[Enum]]] = ...,
         null: Literal[False] = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
