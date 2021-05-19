@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from decimal import Decimal
+from enum import Enum
 from typing import (
     Any,
     Callable,
@@ -1068,3 +1069,77 @@ class ReferenceField(BaseField):
         blank: bool = ...,
     ) -> None: ...
     def __getitem__(self, arg: Any) -> Any: ...
+
+_T_ENUM = TypeVar("_T_ENUM", bound=Enum)
+
+class EnumField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __new__(
+        cls,
+        enum: Type[_T_ENUM],
+        *,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[_T_ENUM]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> EnumField[Optional[_T_ENUM], Optional[_T_ENUM]]: ...
+    @overload
+    def __new__(
+        cls,
+        enum: Type[_T_ENUM],
+        *,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[_T_ENUM, Callable[[], _T_ENUM]],
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[_T_ENUM]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> EnumField[Optional[_T_ENUM], _T_ENUM]: ...
+    @overload
+    def __new__(
+        cls,
+        enum: Type[_T_ENUM],
+        *,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True],
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[_T_ENUM]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> EnumField[_T_ENUM, _T_ENUM]: ...
+    @overload
+    def __new__(
+        cls,
+        enum: Type[_T_ENUM],
+        *,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True],
+        default: Union[_T_ENUM, Callable[[], _T_ENUM]],
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[_T_ENUM]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> EnumField[Optional[_T_ENUM], _T_ENUM]: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
