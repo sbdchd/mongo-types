@@ -334,6 +334,7 @@ def test_pymongo() -> None:
         print()
     except pymongo.errors.BulkWriteError as e:
         for error in e.details["writeErrors"]:
+            assert "errmsg" in error and "op" in error
             print(error["errmsg"])
             phone = error["op"]["u"]["$set"]["_phone"]
             user_id = error["op"]["u"]["$set"]["_id"]

@@ -765,14 +765,16 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
         cls,
         document_type: Type[_T],
         required: Literal[False] = ...,
-        default: Union[_T, Callable[[], _T]] = ...,
+        *,
+        default: Union[_T, Callable[[], _T]],
         help_text: str = ...,
     ) -> EmbeddedDocumentField[Optional[_T], _T]: ...
     @overload
-    def __new__(
+    def __new__(  # pyright: reportOverlappingOverload=false
         cls,
         document_type: Type[_T],
-        required: Literal[True] = ...,
+        *,
+        required: Literal[True],
         default: None = ...,
         help_text: str = ...,
     ) -> EmbeddedDocumentField[_T, _T]: ...
@@ -780,8 +782,9 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
     def __new__(
         cls,
         document_type: Type[_T],
-        required: Literal[True] = ...,
-        default: Union[_T, Callable[[], _T]] = ...,
+        *,
+        required: Literal[True],
+        default: Union[_T, Callable[[], _T]],
         help_text: str = ...,
     ) -> EmbeddedDocumentField[Optional[_T], _T]: ...
     def __set__(

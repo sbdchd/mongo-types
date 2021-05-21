@@ -3,6 +3,6 @@
 
 
 pyright@^1.1.95:
-  version "1.1.95"
-  resolved "https://registry.npmjs.org/pyright/-/pyright-1.1.95.tgz#24fdb61786f93dbdf5c29d8219ad74fd643880b2"
-  integrity sha512-Hr4eT7jcKU0YCyEsslqDseVen5uTjaLbwdfHYsDhMzmwWu4nxX3OrpfUNstaiYZdqNAFwFRHQzPWaibS9cm05A==
+  version "1.1.142"
+  resolved "https://registry.yarnpkg.com/pyright/-/pyright-1.1.142.tgz#215c82d881993eac0a97dd886e66ed670c9d52ae"
+  integrity sha512-L6hsiUlI+EMMgDmyyt5ODogS9EwVtWP/YomNnR1A6d4kiTZgh02BXo1pzh0fYhg/ICV36hrp1OmLPqhpJfkrrA==
