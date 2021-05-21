@@ -330,8 +330,12 @@ def test_pymongo() -> None:
         print()
     except pymongo.errors.BulkWriteError as e:
         for error in e.details["writeErrors"]:
-            print(error["errmsg"])
-            phone = error["op"]["u"]["$set"]["_phone"]
-            user_id = error["op"]["u"]["$set"]["_id"]
+            print(error["errmsg"])  # pyright: reportTypedDictNotRequiredAccess=false
+            phone = error["op"]["u"]["$set"][
+                "_phone"
+            ]  # pyright: reportTypedDictNotRequiredAccess=false
+            user_id = error["op"]["u"]["$set"][
+                "_id"
+            ]  # pyright: reportTypedDictNotRequiredAccess=false
             print(phone)
             print(user_id)
