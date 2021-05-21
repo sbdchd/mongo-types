@@ -89,6 +89,9 @@ class Post(Document):
     attachments = fields.EmbeddedDocumentListField(
         PostAttachment, required=False, help_text="random attachments"
     )
+    main_attachment = fields.EmbeddedDocumentField(
+        PostAttachment, required=True, help_text="random attachments"
+    )
     tags = fields.MapField(
         required=False,
         field=fields.StringField(required=True),
@@ -208,6 +211,7 @@ def main() -> None:
     print(post._id)
     post.attachments[-1]
     list(post.attachments)
+    print(post.main_attachment.name)
 
     x: Post = Post().save()
     print(x)
