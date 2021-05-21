@@ -89,6 +89,9 @@ class Post(Document):
     attachments = fields.EmbeddedDocumentListField(
         PostAttachment, required=False, help_text="random attachments"
     )
+    main_attachment = fields.EmbeddedDocumentField(
+        PostAttachment, required=True, help_text="random attachments"
+    )
     tags = fields.MapField(
         required=False,
         field=fields.StringField(required=True),
@@ -208,6 +211,7 @@ def main() -> None:
     print(post._id)
     post.attachments[-1]
     list(post.attachments)
+    print(post.main_attachment.name)
 
     x: Post = Post().save()
     print(x)
@@ -330,12 +334,9 @@ def test_pymongo() -> None:
         print()
     except pymongo.errors.BulkWriteError as e:
         for error in e.details["writeErrors"]:
-            print(error["errmsg"])  # pyright: reportTypedDictNotRequiredAccess=false
-            phone = error["op"]["u"]["$set"][
-                "_phone"
-            ]  # pyright: reportTypedDictNotRequiredAccess=false
-            user_id = error["op"]["u"]["$set"][
-                "_id"
-            ]  # pyright: reportTypedDictNotRequiredAccess=false
+            assert "errmsg" in error and "op" in error
+            print(error["errmsg"])
+            phone = error["op"]["u"]["$set"]["_phone"]
+            user_id = error["op"]["u"]["$set"]["_id"]
             print(phone)
             print(user_id)

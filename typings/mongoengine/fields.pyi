@@ -25,7 +25,6 @@ from mongoengine.document import Document
 from typing_extensions import Literal
 
 _T = TypeVar("_T")
-_Doc_Type = TypeVar("_Doc_Type", bound="Document")
 
 _ST = TypeVar("_ST")
 _GT = TypeVar("_GT")
@@ -756,38 +755,36 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
-        document_type: Type[_Doc_Type],
+        document_type: Type[_T],
         required: Literal[False] = ...,
-        default: None = ...,
         help_text: str = ...,
-    ) -> EmbeddedDocumentField[Optional[_Doc_Type], Optional[_Doc_Type]]: ...
+    ) -> EmbeddedDocumentField[Optional[_T], Optional[_T]]: ...
     @overload
     def __new__(
         cls,
-        document_type: Type[_Doc_Type],
+        document_type: Type[_T],
         required: Literal[False] = ...,
         *,
-        default: Union[_Doc_Type, Callable[[], _Doc_Type]],
+        default: Union[_T, Callable[[], _T]],
         help_text: str = ...,
-    ) -> EmbeddedDocumentField[Optional[_Doc_Type], _Doc_Type]: ...
+    ) -> EmbeddedDocumentField[Optional[_T], _T]: ...
     @overload
     def __new__(
         cls,
-        document_type: Type[_Doc_Type],
+        document_type: Type[_T],
         *,
         required: Literal[True],
-        default: None = ...,
         help_text: str = ...,
-    ) -> EmbeddedDocumentField[_Doc_Type, _Doc_Type]: ...
+    ) -> EmbeddedDocumentField[_T, _T]: ...
     @overload
     def __new__(
         cls,
-        document_type: Type[_Doc_Type],
+        document_type: Type[_T],
         *,
         required: Literal[True],
-        default: Union[_Doc_Type, Callable[[], _Doc_Type]],
+        default: Union[_T, Callable[[], _T]],
         help_text: str = ...,
-    ) -> EmbeddedDocumentField[Optional[_Doc_Type], _Doc_Type]: ...
+    ) -> EmbeddedDocumentField[Optional[_T], _T]: ...
     def __set__(
         self: EmbeddedDocumentField[_ST, Any], instance: Any, value: _ST
     ) -> None: ...
