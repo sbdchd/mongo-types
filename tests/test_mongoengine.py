@@ -144,6 +144,10 @@ def main() -> None:
 
     insert_result_2 = Post.objects().insert([Post(), Post()], load_bulk=False)
     print(insert_result_2)
+    insert_result_3: Post = Post.objects().insert(Post())
+    print(insert_result_3)
+    insert_result_4 = Post.objects().insert(Post(), load_bulk=False)
+    print(insert_result_4)
 
     res: int = Post.objects().update(foo=True)
     print(res)

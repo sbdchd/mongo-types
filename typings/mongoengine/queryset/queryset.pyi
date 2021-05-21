@@ -16,6 +16,7 @@ from typing import (
 )
 
 from bson import ObjectId
+from mongoengine import Document
 from mongoengine.queryset.visitor import Q
 from pymongo.collation import Collation
 from pymongo.collection import Collection
@@ -61,6 +62,8 @@ class _ExplainCursor(TypedDict):
 
 _Hint = Union[str, List[Tuple[str, Literal[-1, 1]]]]
 
+_INSERT_TYPE = TypeVar("_INSERT_TYPE", bound="Union[Document, Dict[str, Any]]")
+
 class QuerySet(Generic[_T]):
     _document: Type[_T]
     _collection: Collection
@@ -75,7 +78,23 @@ class QuerySet(Generic[_T]):
     @overload
     def insert(
         self,
-        doc_or_docs: Union[_T, List[_T]],
+        doc_or_docs: _INSERT_TYPE,  # pyright: reportInvalidTypeVarUse=false
+        load_bulk: Literal[False],
+        write_concern: Optional[_ReadWriteConcern] = ...,
+        signal_kwargs: Optional[Any] = ...,
+    ) -> ObjectId: ...
+    @overload
+    def insert(
+        self,
+        doc_or_docs: List[_INSERT_TYPE],
+        load_bulk: Literal[True] = ...,
+        write_concern: Optional[_ReadWriteConcern] = ...,
+        signal_kwargs: Optional[Any] = ...,
+    ) -> List[_INSERT_TYPE]: ...
+    @overload
+    def insert(
+        self,
+        doc_or_docs: List[_INSERT_TYPE],
         load_bulk: Literal[False],
         write_concern: Optional[_ReadWriteConcern] = ...,
         signal_kwargs: Optional[Any] = ...,
@@ -83,11 +102,11 @@ class QuerySet(Generic[_T]):
     @overload
     def insert(
         self,
-        doc_or_docs: Union[_T, List[_T]],
+        doc_or_docs: _INSERT_TYPE,
         load_bulk: Literal[True] = ...,
         write_concern: Optional[_ReadWriteConcern] = ...,
         signal_kwargs: Optional[Any] = ...,
-    ) -> List[_T]: ...
+    ) -> _INSERT_TYPE: ...
     def values(self, *args: str) -> Dict[str, Any]: ...
     def as_pymongo(self) -> QuerySet[Dict[str, Any]]: ...
     def scalar(self, *fields: str) -> List[Any]: ...
