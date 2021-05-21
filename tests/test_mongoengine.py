@@ -142,11 +142,17 @@ def main() -> None:
     posts_again = Post.objects().exclude("title").all_fields()
     print(posts_again)
 
-    insert_result = Post.objects().insert([Post(), Post()])
+    insert_result: list[Post] = Post.objects().insert([Post(), Post()])
     print(insert_result)
 
-    insert_result_2 = Post.objects().insert([Post(), Post()], load_bulk=False)
+    insert_result_2: list[ObjectId] = Post.objects().insert(
+        [Post(), Post()], load_bulk=False
+    )
     print(insert_result_2)
+    insert_result_3: Post = Post.objects().insert(Post())
+    print(insert_result_3)
+    insert_result_4: ObjectId = Post.objects().insert(Post(), load_bulk=False)
+    print(insert_result_4)
 
     res: int = Post.objects().update(foo=True)
     print(res)
