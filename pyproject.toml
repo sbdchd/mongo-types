@@ -18,7 +18,7 @@ packages = [
 python = "^3.7"
 
 [tool.poetry.dev-dependencies]
-mypy = "^0.790.0"
+mypy = "^0.812"
 ipython = "^7.19"
 mongoengine = "0.15.3"
 flake8 = "^3.8"
