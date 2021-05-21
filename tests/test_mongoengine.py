@@ -153,8 +153,6 @@ def main() -> None:
     print(insert_result_3)
     insert_result_4: ObjectId = Post.objects().insert(Post(), load_bulk=False)
     print(insert_result_4)
-    insert_result_5: Post = Post.objects().insert(Recipe())
-    print(insert_result_5)
 
     res: int = Post.objects().update(foo=True)
     print(res)
