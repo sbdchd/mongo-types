@@ -2,9 +2,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
-from typing_extensions import Literal, TypedDict
-
 from bson.timestamp import Timestamp
+from typing_extensions import Literal, TypedDict
 
 class _Document(TypedDict):
     _data: str

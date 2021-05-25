@@ -1,7 +1,6 @@
 import datetime
 from typing import Any, Union
 
-
 UPPERBOUND: int
 
 
