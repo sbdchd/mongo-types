@@ -4,6 +4,8 @@ from typing import Any, Dict, List, Optional
 
 from typing_extensions import Literal, TypedDict
 
+from bson.timestamp import Timestamp
+
 class _Document(TypedDict):
     _data: str
 
@@ -27,6 +29,7 @@ class _Event(TypedDict):
     fullDocument: Optional[_FullDocument]
     ns: _Ns
     updateDescription: _UpdateDescription
+    clusterTime: Timestamp
     operationType: Literal[
         "insert",
         "update",

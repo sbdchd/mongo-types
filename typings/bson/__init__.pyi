@@ -3,6 +3,7 @@ from typing import Any, Mapping
 from bson.codec_options import CodecOptions
 from bson.objectid import ObjectId
 from bson.son import SON
+from bson.timestamp import Timestamp
 
 def decode_iter(data: bytes, codec_options: CodecOptions = ...) -> Any: ...
 
@@ -19,4 +20,4 @@ class BSON(bytes):
         codec_options: CodecOptions = ...,
     ) -> Any: ...
 
-__all__ = ["ObjectId", "SON", "decode_iter", "CodecOptions"]
+__all__ = ["ObjectId", "SON", "decode_iter", "CodecOptions", "Timestamp"]
