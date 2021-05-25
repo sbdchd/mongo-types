@@ -188,6 +188,7 @@ def main() -> None:
     p.save()
 
     assert Post.dead_posts().count() == 1
+    assert Post.dead_posts().count(True) == 1
 
     assert Post.objects().none()
     assert Post.objects().get(id="foo")
