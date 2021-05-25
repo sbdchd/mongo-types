@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional
 
+from bson.timestamp import Timestamp
 from typing_extensions import Literal, TypedDict
 
 class _Document(TypedDict):
@@ -27,6 +28,7 @@ class _Event(TypedDict):
     fullDocument: Optional[_FullDocument]
     ns: _Ns
     updateDescription: _UpdateDescription
+    clusterTime: Timestamp
     operationType: Literal[
         "insert",
         "update",
