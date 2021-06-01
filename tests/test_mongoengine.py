@@ -104,6 +104,13 @@ class Post(Document):
     font_required_default = fields.EnumField(
         Font, required=True, default=Font.Helvetica
     )
+    url = fields.URLField()
+    url_required = fields.URLField(required=True)
+    url_default = fields.URLField(default="https://example.org")
+    url_required_default = fields.URLField(required=True, default="https://example.org")
+    url_with_extra_args = fields.URLField(
+        verify_exists=False, url_regex=None, schemas=["ftp://"], regex="bar"
+    )
 
     def set_hidden(self, hidden: bool) -> None:
         self.hidden = hidden
@@ -182,6 +189,19 @@ def main() -> None:
 
     log_required_font(first_post.font_default)
     first_post.font_default = None
+
+    def log_required_url(url: str) -> None:
+        print(url)
+
+    def log_optional_url(url: str | None) -> None:
+        print(url)
+
+    log_optional_url(first_post.url)
+    first_post.url = None
+    log_required_url(first_post.url_default)
+    first_post.url_default = None
+    log_required_url(first_post.url_required)
+    log_required_url(first_post.url_required_default)
 
     p = Post()
     p.validate()

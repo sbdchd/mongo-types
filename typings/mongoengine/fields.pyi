@@ -6,12 +6,14 @@ from enum import Enum
 from typing import (
     Any,
     Callable,
+    Container,
     Dict,
     Generic,
     Iterable,
     Iterator,
     List,
     Optional,
+    Pattern,
     Type,
     TypeVar,
     Union,
@@ -965,6 +967,115 @@ class LazyReferenceField(BaseField):
         help_text: Optional[str] = ...,
     ) -> None: ...
     def __getitem__(self, arg: Any) -> LazyReference[Any]: ...
+
+class URLField(Generic[_ST, _GT], StringField[_ST, _GT]):
+    @overload
+    def __new__(
+        cls,
+        verify_exists: bool = ...,
+        url_regex: Optional[Pattern[str]] = ...,
+        schemas: Optional[Container[str]] = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> URLField[Optional[str], Optional[str]]: ...
+    @overload
+    def __new__(
+        cls,
+        verify_exists: bool = ...,
+        url_regex: Optional[Pattern[str]] = ...,
+        schemas: Optional[Container[str]] = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[str, Callable[[], str]] = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> URLField[Optional[str], str]: ...
+    @overload
+    def __new__(
+        cls,
+        verify_exists: bool = ...,
+        url_regex: Optional[Pattern[str]] = ...,
+        schemas: Optional[Container[str]] = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> URLField[str, str]: ...
+    @overload
+    def __new__(
+        cls,
+        verify_exists: bool = ...,
+        url_regex: Optional[Pattern[str]] = ...,
+        schemas: Optional[Container[str]] = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True] = ...,
+        default: Union[str, Callable[[], str]] = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> URLField[Optional[str], str]: ...
+    @overload
+    def __new__(
+        cls,
+        verify_exists: bool = ...,
+        url_regex: Optional[Pattern[str]] = ...,
+        schemas: Optional[Container[str]] = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: bool = ...,
+        default: Union[str, Callable[[], str], None] = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[True] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> URLField[str, str]: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
