@@ -31,8 +31,8 @@ _GT = TypeVar("_GT")
 
 class ObjectIdField(Generic[_ST, _GT], BaseField):
     @overload
-    def __init__(
-        self: ObjectIdField[Optional[ObjectId], Optional[ObjectId]],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -44,10 +44,10 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: Literal[False] = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> ObjectIdField[Optional[ObjectId], Optional[ObjectId]]: ...
     @overload
-    def __init__(
-        self: ObjectIdField[Optional[ObjectId], ObjectId],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -59,10 +59,10 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> ObjectIdField[Optional[ObjectId], ObjectId]: ...
     @overload
-    def __init__(
-        self: ObjectIdField[ObjectId, ObjectId],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[True] = ...,
@@ -74,10 +74,10 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> ObjectIdField[ObjectId, ObjectId]: ...
     @overload
-    def __init__(
-        self: ObjectIdField[Optional[ObjectId], ObjectId],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[True] = ...,
@@ -89,10 +89,10 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> ObjectIdField[Optional[ObjectId], ObjectId]: ...
     @overload
-    def __init__(
-        self: ObjectIdField[ObjectId, ObjectId],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: bool = ...,
@@ -104,14 +104,14 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> ObjectIdField[ObjectId, ObjectId]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class StringField(Generic[_ST, _GT], BaseField):
     @overload
-    def __init__(
-        self: StringField[Optional[str], Optional[str]],
+    def __new__(
+        cls,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
@@ -126,10 +126,10 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[Optional[str], Optional[str]]: ...
     @overload
-    def __init__(
-        self: StringField[Optional[str], str],
+    def __new__(
+        cls,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
@@ -144,10 +144,10 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[Optional[str], str]: ...
     @overload
-    def __init__(
-        self: StringField[str, str],
+    def __new__(
+        cls,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
@@ -162,10 +162,10 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[str, str]: ...
     @overload
-    def __init__(
-        self: StringField[Optional[str], str],
+    def __new__(
+        cls,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
@@ -180,10 +180,10 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[Optional[str], str]: ...
     @overload
-    def __init__(
-        self: StringField[str, str],
+    def __new__(
+        cls,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
@@ -198,14 +198,14 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[str, str]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class EmailField(StringField[_ST, _GT]):
     @overload
-    def __init__(
-        self: EmailField[Optional[str], Optional[str]],
+    def __new__(
+        cls,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -223,10 +223,10 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> EmailField[Optional[str], Optional[str]]: ...
     @overload
-    def __init__(
-        self: EmailField[Optional[str], str],
+    def __new__(
+        cls,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -244,10 +244,10 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> EmailField[Optional[str], str]: ...
     @overload
-    def __init__(
-        self: EmailField[str, str],
+    def __new__(
+        cls,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -265,10 +265,10 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> EmailField[str, str]: ...
     @overload
-    def __init__(
-        self: EmailField[Optional[str], str],
+    def __new__(
+        cls,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -286,10 +286,10 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> EmailField[Optional[str], str]: ...
     @overload
-    def __init__(
-        self: EmailField[str, str],
+    def __new__(
+        cls,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -307,14 +307,14 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> EmailField[str, str]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class IntField(Generic[_ST, _GT], BaseField):
     @overload
-    def __init__(
-        self: IntField[Optional[int], Optional[int]],
+    def __new__(
+        cls,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
@@ -328,10 +328,10 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> IntField[Optional[int], Optional[int]]: ...
     @overload
-    def __init__(
-        self: IntField[Optional[int], int],
+    def __new__(
+        cls,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
@@ -345,10 +345,10 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> IntField[Optional[int], int]: ...
     @overload
-    def __init__(
-        self: IntField[int, int],
+    def __new__(
+        cls,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
@@ -362,10 +362,10 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> IntField[int, int]: ...
     @overload
-    def __init__(
-        self: IntField[Optional[int], int],
+    def __new__(
+        cls,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
@@ -379,10 +379,10 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> IntField[Optional[int], int]: ...
     @overload
-    def __init__(
-        self: IntField[int, int],
+    def __new__(
+        cls,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
@@ -396,14 +396,14 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> IntField[int, int]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class FloatField(Generic[_ST, _GT], BaseField):
     @overload
-    def __init__(
-        self: FloatField[Optional[float], Optional[float]],
+    def __new__(
+        cls,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
@@ -417,10 +417,10 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> FloatField[Optional[float], Optional[float]]: ...
     @overload
-    def __init__(
-        self: FloatField[Optional[float], float],
+    def __new__(
+        cls,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
@@ -434,10 +434,10 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> FloatField[Optional[float], float]: ...
     @overload
-    def __init__(
-        self: FloatField[float, float],
+    def __new__(
+        cls,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
@@ -451,10 +451,10 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> FloatField[float, float]: ...
     @overload
-    def __init__(
-        self: FloatField[Optional[float], float],
+    def __new__(
+        cls,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
@@ -468,10 +468,10 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> FloatField[Optional[float], float]: ...
     @overload
-    def __init__(
-        self: FloatField[float, float],
+    def __new__(
+        cls,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
@@ -485,14 +485,14 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> FloatField[float, float]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class DecimalField(Generic[_ST, _GT], BaseField):
     @overload
-    def __init__(
-        self: DecimalField[Optional[Decimal], Optional[Decimal]],
+    def __new__(
+        cls,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -509,10 +509,10 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DecimalField[Optional[Decimal], Optional[Decimal]]: ...
     @overload
-    def __init__(
-        self: DecimalField[Optional[Decimal], Decimal],
+    def __new__(
+        cls,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -529,10 +529,10 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DecimalField[Optional[Decimal], Decimal]: ...
     @overload
-    def __init__(
-        self: DecimalField[Decimal, Decimal],
+    def __new__(
+        cls,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -549,10 +549,10 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DecimalField[Decimal, Decimal]: ...
     @overload
-    def __init__(
-        self: DecimalField[Optional[Decimal], Decimal],
+    def __new__(
+        cls,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -569,10 +569,10 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DecimalField[Optional[Decimal], Decimal]: ...
     @overload
-    def __init__(
-        self: DecimalField[Decimal, Decimal],
+    def __new__(
+        cls,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -589,14 +589,14 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DecimalField[Decimal, Decimal]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class BooleanField(Generic[_ST, _GT], BaseField):
     @overload
-    def __init__(
-        self: BooleanField[Optional[bool], Optional[bool]],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -608,10 +608,10 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: Literal[False] = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> BooleanField[Optional[bool], Optional[bool]]: ...
     @overload
-    def __init__(
-        self: BooleanField[Optional[bool], bool],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -623,10 +623,10 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> BooleanField[Optional[bool], bool]: ...
     @overload
-    def __init__(
-        self: BooleanField[bool, bool],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[True] = ...,
@@ -638,10 +638,10 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> BooleanField[bool, bool]: ...
     @overload
-    def __init__(
-        self: BooleanField[Optional[bool], bool],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[True] = ...,
@@ -653,10 +653,10 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> BooleanField[Optional[bool], bool]: ...
     @overload
-    def __init__(
-        self: BooleanField[bool, bool],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: bool = ...,
@@ -668,14 +668,14 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> BooleanField[bool, bool]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class DateTimeField(Generic[_ST, _GT], BaseField):
     @overload
-    def __init__(
-        self: DateTimeField[Optional[datetime], Optional[datetime]],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -687,10 +687,10 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: Literal[False] = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DateTimeField[Optional[datetime], Optional[datetime]]: ...
     @overload
-    def __init__(
-        self: DateTimeField[Optional[datetime], datetime],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -702,10 +702,10 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DateTimeField[Optional[datetime], datetime]: ...
     @overload
-    def __init__(
-        self: DateTimeField[datetime, datetime],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[True] = ...,
@@ -717,10 +717,10 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DateTimeField[datetime, datetime]: ...
     @overload
-    def __init__(
-        self: DateTimeField[Optional[datetime], datetime],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[True] = ...,
@@ -732,10 +732,10 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DateTimeField[Optional[datetime], datetime]: ...
     @overload
-    def __init__(
-        self: DateTimeField[datetime, datetime],
+    def __new__(
+        cls,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: bool = ...,
@@ -747,7 +747,7 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> DateTimeField[datetime, datetime]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
@@ -968,8 +968,8 @@ class LazyReferenceField(BaseField):
 
 class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
-    def __init__(
-        self: UUIDField[Optional[UUID], Optional[UUID]],
+    def __new__(
+        cls,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
@@ -982,10 +982,10 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: Literal[False] = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> UUIDField[Optional[UUID], Optional[UUID]]: ...
     @overload
-    def __init__(
-        self: UUIDField[Optional[UUID], UUID],
+    def __new__(
+        cls,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
@@ -998,10 +998,10 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> UUIDField[Optional[UUID], UUID]: ...
     @overload
-    def __init__(
-        self: UUIDField[UUID, UUID],
+    def __new__(
+        cls,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
@@ -1014,10 +1014,10 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> UUIDField[UUID, UUID]: ...
     @overload
-    def __init__(
-        self: UUIDField[Optional[UUID], UUID],
+    def __new__(
+        cls,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
@@ -1030,10 +1030,10 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> UUIDField[Optional[UUID], UUID]: ...
     @overload
-    def __init__(
-        self: UUIDField[UUID, UUID],
+    def __new__(
+        cls,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
@@ -1046,7 +1046,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> UUIDField[UUID, UUID]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
