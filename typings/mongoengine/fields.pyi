@@ -14,6 +14,7 @@ from typing import (
     List,
     Optional,
     Pattern,
+    Tuple,
     Type,
     TypeVar,
     Union,
@@ -1200,6 +1201,76 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> UUIDField[UUID, UUID]: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
+
+_Tuple2Like = Union[Tuple[Union[float, int], Union[float, int]], List[float], List[int]]
+
+class GeoPointField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __new__(
+        cls,
+        *,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> GeoPointField[_Tuple2Like | None, list[float] | None]: ...
+    @overload
+    def __new__(
+        cls,
+        *,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[_Tuple2Like, Callable[[], _Tuple2Like]],
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> GeoPointField[_Tuple2Like | None, list[float]]: ...
+    @overload
+    def __new__(
+        cls,
+        *,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True],
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> GeoPointField[_Tuple2Like, list[float]]: ...
+    @overload
+    def __new__(
+        cls,
+        *,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True],
+        default: Union[_Tuple2Like, Callable[[], _Tuple2Like]],
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> GeoPointField[_Tuple2Like | None, list[float]]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 

@@ -112,6 +112,11 @@ class Post(Document):
         verify_exists=False, url_regex=None, schemas=["ftp://"], regex="bar"
     )
 
+    geo = fields.GeoPointField()
+    geo_required = fields.GeoPointField(required=True)
+    geo_default = fields.GeoPointField(default=(1, 2))
+    geo_required_default = fields.GeoPointField(required=True, default=(1, 2))
+
     def set_hidden(self, hidden: bool) -> None:
         self.hidden = hidden
         self.save()
@@ -202,6 +207,13 @@ def main() -> None:
     first_post.url_default = None
     log_required_url(first_post.url_required)
     log_required_url(first_post.url_required_default)
+
+    first_post.geo = [1.0, 2.2]
+    first_post.geo = [1, 2]
+    first_post.geo = (1, 2)
+    first_post.geo = None
+    first_post.geo_required_default = None
+    first_post.geo_default = None
 
     p = Post()
     p.validate()
