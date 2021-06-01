@@ -1158,6 +1158,76 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
+_Tuple2Like = tuple[float | int, float | int] | list[float] | list[int]
+
+class GeoPointField(Generic[_ST, _GT], BaseField):
+    @overload
+    def __new__(
+        cls,
+        *,
+        db_field: str = ...,
+        name: str | None = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: str | Iterable[str] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> GeoPointField[_Tuple2Like | None, list[float] | None]: ...
+    @overload
+    def __new__(
+        cls,
+        *,
+        db_field: str = ...,
+        name: str | None = ...,
+        required: Literal[False] = ...,
+        default: _Tuple2Like | Callable[[], _Tuple2Like],
+        unique: bool = ...,
+        unique_with: str | Iterable[str] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Iterable[str] | None = ...,
+        null: bool = ...,
+        verbose_name: str | None = ...,
+        help_text: str | None = ...,
+    ) -> GeoPointField[_Tuple2Like | None, list[float]]: ...
+    @overload
+    def __new__(
+        cls,
+        *,
+        db_field: str = ...,
+        name: str | None = ...,
+        required: Literal[True],
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: str | Iterable[str] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Iterable[str] | None = ...,
+        null: bool = ...,
+        verbose_name: str | None = ...,
+        help_text: str | None = ...,
+    ) -> URLField[_Tuple2Like, list[float]]: ...
+    @overload
+    def __new__(
+        cls,
+        *,
+        db_field: str = ...,
+        name: str | None = ...,
+        required: Literal[True],
+        default: _Tuple2Like | Callable[[], _Tuple2Like],
+        unique: bool = ...,
+        unique_with: str | Iterable[str] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Iterable[str] | None = ...,
+        null: bool = ...,
+        verbose_name: str | None = ...,
+        help_text: str | None = ...,
+    ) -> URLField[_Tuple2Like | None, list[float]]: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
+
 _MapType = Dict[str, Any]
 
 class MapField(DictField[_T]):
