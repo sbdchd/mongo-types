@@ -26,7 +26,7 @@ cast(Any, QuerySet).__class_getitem__ = types.MethodType(no_op, QuerySet)
 
 class PostAttachment(EmbeddedDocument):
     url = fields.StringField()
-    name = fields.StringField()
+    name = fields.StringField(max_length=10)
 
 
 class PostQuerySet(QuerySet["Post"]):
