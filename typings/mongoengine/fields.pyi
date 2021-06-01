@@ -32,28 +32,32 @@ _ST = TypeVar("_ST")
 _GT = TypeVar("_GT")
 
 class ObjectIdField(Generic[_ST, _GT], BaseField):
+    # ObjectIdField()
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: bool = ...,
+        primary_key: Literal[False] = ...,
         choices: Optional[Iterable[ObjectId]] = ...,
         null: Literal[False] = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> ObjectIdField[Optional[ObjectId], Optional[ObjectId]]: ...
+    # ObjectIdField(default=ObjectId)
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[ObjectId, Callable[[], ObjectId]] = ...,
+        default: Union[ObjectId, Callable[[], ObjectId]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -62,12 +66,14 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> ObjectIdField[Optional[ObjectId], ObjectId]: ...
+    # ObjectIdField(required=True)
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
+        required: Literal[True],
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
@@ -77,13 +83,15 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> ObjectIdField[ObjectId, ObjectId]: ...
+    # ObjectIdField(required=True, default=ObjectId)
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
-        default: Union[ObjectId, Callable[[], ObjectId]] = ...,
+        required: Literal[True],
+        default: Union[ObjectId, Callable[[], ObjectId]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -92,16 +100,18 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> ObjectIdField[Optional[ObjectId], ObjectId]: ...
+    # ObjectIdField(primiary_key=True)
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: bool = ...,
         default: Union[ObjectId, None, Callable[[], ObjectId]] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: Literal[True] = ...,
+        primary_key: Literal[True],
         choices: Optional[Iterable[ObjectId]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
@@ -218,6 +228,7 @@ class EmailField(StringField[_ST, _GT]):
     @overload
     def __new__(
         cls,
+        *,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -239,6 +250,7 @@ class EmailField(StringField[_ST, _GT]):
     @overload
     def __new__(
         cls,
+        *,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -248,7 +260,7 @@ class EmailField(StringField[_ST, _GT]):
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[str, Callable[[], str]] = ...,
+        default: Union[str, Callable[[], str]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -260,6 +272,7 @@ class EmailField(StringField[_ST, _GT]):
     @overload
     def __new__(
         cls,
+        *,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -268,7 +281,7 @@ class EmailField(StringField[_ST, _GT]):
         min_length: Optional[int] = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
+        required: Literal[True],
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
@@ -281,6 +294,7 @@ class EmailField(StringField[_ST, _GT]):
     @overload
     def __new__(
         cls,
+        *,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -289,8 +303,8 @@ class EmailField(StringField[_ST, _GT]):
         min_length: Optional[int] = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
-        default: Union[str, Callable[[], str]] = ...,
+        required: Literal[True],
+        default: Union[str, Callable[[], str]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -302,6 +316,7 @@ class EmailField(StringField[_ST, _GT]):
     @overload
     def __new__(
         cls,
+        *,
         domain_whitelist: Optional[List[str]] = ...,
         allow_utf8_user: bool = ...,
         allow_ip_domain: bool = ...,
@@ -314,7 +329,7 @@ class EmailField(StringField[_ST, _GT]):
         default: Union[str, Callable[[], str], None] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: Literal[True] = ...,
+        primary_key: Literal[True],
         choices: Optional[Iterable[str]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
@@ -327,6 +342,7 @@ class IntField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
@@ -344,12 +360,13 @@ class IntField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[int, Callable[[], int]] = ...,
+        default: Union[int, Callable[[], int]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -361,11 +378,12 @@ class IntField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
+        required: Literal[True],
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
@@ -378,12 +396,13 @@ class IntField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
-        default: Union[int, Callable[[], int]] = ...,
+        required: Literal[True],
+        default: Union[int, Callable[[], int]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -395,6 +414,7 @@ class IntField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: int = ...,
         max_value: int = ...,
         db_field: str = ...,
@@ -403,7 +423,7 @@ class IntField(Generic[_ST, _GT], BaseField):
         default: Union[int, Callable[[], int], None] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: Literal[True] = ...,
+        primary_key: Literal[True],
         choices: Optional[Iterable[int]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
@@ -416,6 +436,7 @@ class FloatField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
@@ -433,12 +454,13 @@ class FloatField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[float, Callable[[], float]] = ...,
+        default: Union[float, Callable[[], float]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -450,11 +472,12 @@ class FloatField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
+        required: Literal[True],
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
@@ -467,12 +490,13 @@ class FloatField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
-        default: Union[float, Callable[[], float]] = ...,
+        required: Literal[True],
+        default: Union[float, Callable[[], float]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -484,6 +508,7 @@ class FloatField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: float = ...,
         max_value: float = ...,
         db_field: str = ...,
@@ -492,7 +517,7 @@ class FloatField(Generic[_ST, _GT], BaseField):
         default: Union[float, Callable[[], float], None] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: Literal[True] = ...,
+        primary_key: Literal[True],
         choices: Optional[Iterable[float]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
@@ -505,6 +530,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -525,6 +551,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -533,7 +560,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[Decimal, Callable[[], Decimal]] = ...,
+        default: Union[Decimal, Callable[[], Decimal]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -545,6 +572,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -552,7 +580,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         rounding: str = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
+        required: Literal[True],
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
@@ -565,6 +593,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -572,8 +601,8 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         rounding: str = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
-        default: Union[Decimal, Callable[[], Decimal]] = ...,
+        required: Literal[True],
+        default: Union[Decimal, Callable[[], Decimal]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -585,6 +614,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         min_value: Decimal = ...,
         max_value: Decimal = ...,
         force_string: bool = ...,
@@ -596,7 +626,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         default: Union[Decimal, Callable[[], Decimal], None] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: Literal[True] = ...,
+        primary_key: Literal[True],
         choices: Optional[Iterable[Decimal]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
@@ -609,13 +639,14 @@ class BooleanField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: bool = ...,
+        primary_key: Literal[False] = ...,
         choices: Optional[Iterable[bool]] = ...,
         null: Literal[False] = ...,
         verbose_name: Optional[str] = ...,
@@ -624,10 +655,11 @@ class BooleanField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[bool, Callable[[], bool]] = ...,
+        default: Union[bool, Callable[[], bool]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -639,9 +671,10 @@ class BooleanField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
+        required: Literal[True],
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
@@ -654,10 +687,11 @@ class BooleanField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
-        default: Union[bool, Callable[[], bool]] = ...,
+        required: Literal[True],
+        default: Union[bool, Callable[[], bool]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -669,13 +703,14 @@ class BooleanField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: bool = ...,
         default: Union[bool, None, Callable[[], bool]] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: Literal[True] = ...,
+        primary_key: Literal[True],
         choices: Optional[Iterable[bool]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
@@ -688,6 +723,7 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -703,10 +739,11 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[datetime, Callable[[], datetime]] = ...,
+        default: Union[datetime, Callable[[], datetime]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -718,9 +755,10 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
+        required: Literal[True],
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
@@ -733,10 +771,11 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
-        default: Union[datetime, Callable[[], datetime]] = ...,
+        required: Literal[True],
+        default: Union[datetime, Callable[[], datetime]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -748,13 +787,14 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: bool = ...,
         default: Union[datetime, None, Callable[[], datetime]] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: Literal[True] = ...,
+        primary_key: Literal[True],
         choices: Optional[Iterable[datetime]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
@@ -1078,6 +1118,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
@@ -1094,11 +1135,12 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[UUID, Callable[[], UUID]] = ...,
+        default: Union[UUID, Callable[[], UUID]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -1110,10 +1152,11 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
+        required: Literal[True],
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
@@ -1126,11 +1169,12 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
-        default: Union[UUID, Callable[[], UUID]] = ...,
+        required: Literal[True],
+        default: Union[UUID, Callable[[], UUID]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -1142,6 +1186,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
+        *,
         binary: bool,
         db_field: str = ...,
         name: Optional[str] = ...,
@@ -1149,7 +1194,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         default: Union[UUID, None, Callable[[], UUID]] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: Literal[True] = ...,
+        primary_key: Literal[True],
         choices: Optional[Iterable[UUID]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
