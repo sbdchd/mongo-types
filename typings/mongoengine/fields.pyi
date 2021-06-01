@@ -6,12 +6,14 @@ from enum import Enum
 from typing import (
     Any,
     Callable,
+    Container,
     Dict,
     Generic,
     Iterable,
     Iterator,
     List,
     Optional,
+    Pattern,
     Type,
     TypeVar,
     Union,
@@ -109,9 +111,11 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 class StringField(Generic[_ST, _GT], BaseField):
+    # StringField()
     @overload
-    def __init__(
-        self: StringField[Optional[str], Optional[str]],
+    def __new__(
+        cls,
+        *,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
@@ -126,17 +130,19 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[Optional[str], Optional[str]]: ...
+    # StringField(default="foo")
     @overload
-    def __init__(
-        self: StringField[Optional[str], str],
+    def __new__(
+        cls,
+        *,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
-        default: Union[str, Callable[[], str]] = ...,
+        default: Union[str, Callable[[], str]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -144,16 +150,18 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[Optional[str], str]: ...
+    # StringField(required=True)
     @overload
-    def __init__(
-        self: StringField[str, str],
+    def __new__(
+        cls,
+        *,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
+        required: Literal[True],
         default: None = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
@@ -162,17 +170,19 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[str, str]: ...
+    # StringField(required=True, default="foo")
     @overload
-    def __init__(
-        self: StringField[Optional[str], str],
+    def __new__(
+        cls,
+        *,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: Literal[True] = ...,
-        default: Union[str, Callable[[], str]] = ...,
+        required: Literal[True],
+        default: Union[str, Callable[[], str]],
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
@@ -180,10 +190,12 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[Optional[str], str]: ...
+    # StringField(primary_key=True)
     @overload
-    def __init__(
-        self: StringField[str, str],
+    def __new__(
+        cls,
+        *,
         regex: Optional[str] = ...,
         max_length: Optional[int] = ...,
         min_length: Optional[int] = ...,
@@ -193,12 +205,12 @@ class StringField(Generic[_ST, _GT], BaseField):
         default: Union[str, Callable[[], str], None] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
-        primary_key: Literal[True] = ...,
+        primary_key: Literal[True],
         choices: Optional[Iterable[str]] = ...,
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> StringField[str, str]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
@@ -966,6 +978,102 @@ class LazyReferenceField(BaseField):
     ) -> None: ...
     def __getitem__(self, arg: Any) -> LazyReference[Any]: ...
 
+class URLField(Generic[_ST, _GT], StringField[_ST, _GT]):
+    # URLField()
+    @overload
+    def __new__(
+        cls,
+        *,
+        verify_exists: bool = ...,
+        url_regex: Optional[Pattern[str]] = ...,
+        schemas: Optional[Container[str]] = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> URLField[Optional[str], Optional[str]]: ...
+    # URLField(default="foo")
+    @overload
+    def __new__(
+        cls,
+        *,
+        verify_exists: bool = ...,
+        url_regex: Optional[Pattern[str]] = ...,
+        schemas: Optional[Container[str]] = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[False] = ...,
+        default: Union[str, Callable[[], str]],
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> URLField[Optional[str], str]: ...
+    # URLField(required=True)
+    @overload
+    def __new__(
+        cls,
+        *,
+        verify_exists: bool = ...,
+        url_regex: Optional[Pattern[str]] = ...,
+        schemas: Optional[Container[str]] = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True],
+        default: None = ...,
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> URLField[str, str]: ...
+    # URLField(required=True, default="foo")
+    @overload
+    def __new__(
+        cls,
+        *,
+        verify_exists: bool = ...,
+        url_regex: Optional[Pattern[str]] = ...,
+        schemas: Optional[Container[str]] = ...,
+        regex: Optional[str] = ...,
+        max_length: Optional[int] = ...,
+        min_length: Optional[int] = ...,
+        db_field: str = ...,
+        name: Optional[str] = ...,
+        required: Literal[True],
+        default: Union[str, Callable[[], str]],
+        unique: bool = ...,
+        unique_with: Union[str, Iterable[str]] = ...,
+        primary_key: Literal[False] = ...,
+        choices: Optional[Iterable[str]] = ...,
+        null: bool = ...,
+        verbose_name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+    ) -> URLField[Optional[str], str]: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
+
 class UUIDField(Generic[_ST, _GT], BaseField):
     @overload
     def __init__(
@@ -1074,6 +1182,7 @@ class ReferenceField(BaseField):
 _T_ENUM = TypeVar("_T_ENUM", bound=Enum)
 
 class EnumField(Generic[_ST, _GT], BaseField):
+    # EnumField(Foo)
     @overload
     def __new__(
         cls,
@@ -1091,6 +1200,7 @@ class EnumField(Generic[_ST, _GT], BaseField):
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> EnumField[Optional[_T_ENUM], Optional[_T_ENUM]]: ...
+    # EnumField(Foo, default=Foo.Bar)
     @overload
     def __new__(
         cls,
@@ -1108,6 +1218,7 @@ class EnumField(Generic[_ST, _GT], BaseField):
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> EnumField[Optional[_T_ENUM], _T_ENUM]: ...
+    # EnumField(Foo, required=True)
     @overload
     def __new__(
         cls,
@@ -1125,6 +1236,7 @@ class EnumField(Generic[_ST, _GT], BaseField):
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> EnumField[_T_ENUM, _T_ENUM]: ...
+    # EnumField(Foo, required=True, default=Foo.Bar)
     @overload
     def __new__(
         cls,
