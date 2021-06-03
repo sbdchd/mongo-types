@@ -1120,7 +1120,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     def __new__(
         cls,
         *,
-        binary: bool,
+        binary: bool = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -1137,7 +1137,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     def __new__(
         cls,
         *,
-        binary: bool,
+        binary: bool = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[False] = ...,
@@ -1154,7 +1154,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     def __new__(
         cls,
         *,
-        binary: bool,
+        binary: bool = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[True],
@@ -1171,7 +1171,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     def __new__(
         cls,
         *,
-        binary: bool,
+        binary: bool = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
         required: Literal[True],
@@ -1188,10 +1188,10 @@ class UUIDField(Generic[_ST, _GT], BaseField):
     def __new__(
         cls,
         *,
-        binary: bool,
+        binary: bool = ...,
         db_field: str = ...,
         name: Optional[str] = ...,
-        required: bool = ...,
+        required: Literal[True] = ...,
         default: Union[UUID, None, Callable[[], UUID]] = ...,
         unique: bool = ...,
         unique_with: Union[str, Iterable[str]] = ...,
