@@ -46,7 +46,7 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
         choices: Optional[Iterable[ObjectId]] = ...,
-        null: Literal[False] = ...,
+        null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> ObjectIdField[Optional[ObjectId], Optional[ObjectId]]: ...
@@ -649,7 +649,7 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
         choices: Optional[Iterable[bool]] = ...,
-        null: Literal[False] = ...,
+        null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> BooleanField[Optional[bool], Optional[bool]]: ...
@@ -733,7 +733,7 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
         choices: Optional[Iterable[datetime]] = ...,
-        null: Literal[False] = ...,
+        null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> DateTimeField[Optional[datetime], Optional[datetime]]: ...
@@ -1129,7 +1129,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         unique_with: Union[str, Iterable[str]] = ...,
         primary_key: Literal[False] = ...,
         choices: Optional[Iterable[UUID]] = ...,
-        null: Literal[False] = ...,
+        null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
     ) -> UUIDField[Optional[UUID], Optional[UUID]]: ...
