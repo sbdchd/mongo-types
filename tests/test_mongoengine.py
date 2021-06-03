@@ -77,6 +77,8 @@ class Post(Document):
     kind = fields.StringField(choices=["new", "archive"])
     location = fields.StringField(required=False, default="home-page")
     is_hidden = fields.BooleanField(default=False)
+    is_flagged = fields.BooleanField(null=True)
+    is_spam = fields.DateTimeField(required=False, null=True)
     comment_count = fields.IntField(required=False)
 
     errors = fields.ListField(
