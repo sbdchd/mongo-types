@@ -1,4 +1,4 @@
-from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple, Union
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple, Union
 
 from bson.codec_options import CodecOptions
 from pymongo.bulk import BulkOperationBuilder
@@ -62,21 +62,21 @@ class Collection(BaseObject):
     ) -> BulkWriteResult: ...
     def insert_one(
         self,
-        document: Dict[str, Any],
+        document: Mapping[str, Any],
         bypass_document_validation: bool = ...,
         session: Optional[ClientSession] = ...,
     ) -> InsertOneResult: ...
     def insert_many(
         self,
-        documents: Iterable[Dict[str, Any]],
+        documents: Iterable[Mapping[str, Any]],
         ordered: bool = ...,
         bypass_document_validation: bool = ...,
         session: Optional[ClientSession] = ...,
     ) -> InsertManyResult: ...
     def replace_one(
         self,
-        filter: Dict[str, Any],
-        replacement: Dict[str, Any],
+        filter: Mapping[str, Any],
+        replacement: Mapping[str, Any],
         bypass_document_validation: bool = ...,
         collation: Optional[Collation] = ...,
         hint: Optional[Any] = ...,
@@ -84,20 +84,20 @@ class Collection(BaseObject):
     ) -> UpdateResult: ...
     def update_one(
         self,
-        filter: Dict[str, Any],
-        update: Dict[str, Any],
+        filter: Mapping[str, Any],
+        update: Mapping[str, Any],
         upsert: bool = ...,
         bypass_document_validation: bool = ...,
         collation: Optional[Collation] = ...,
-        array_filters: Optional[List[Dict[str, Any]]] = ...,
+        array_filters: Optional[Sequence[Mapping[str, Any]]] = ...,
         session: Optional[ClientSession] = ...,
     ) -> UpdateResult: ...
     def update_many(
         self,
-        filter: Dict[str, Any],
-        update: Dict[str, Any],
+        filter: Mapping[str, Any],
+        update: Mapping[str, Any],
         upsert: bool = ...,
-        array_filters: Optional[List[Dict[str, Any]]] = ...,
+        array_filters: Optional[Sequence[Mapping[str, Any]]] = ...,
         bypass_document_validation: bool = ...,
         collation: Optional[Collation] = ...,
         hint: Optional[Any] = ...,
@@ -105,43 +105,43 @@ class Collection(BaseObject):
     ) -> UpdateResult: ...
     def delete_one(
         self,
-        filter: Dict[str, Any],
+        filter: Mapping[str, Any],
         collation: Optional[Collation] = ...,
         hint: Optional[Any] = ...,
         session: Optional[ClientSession] = ...,
     ) -> DeleteResult: ...
     def delete_many(
         self,
-        filter: Dict[str, Any],
+        filter: Mapping[str, Any],
         collation: Optional[Collation] = ...,
         hint: Optional[Any] = ...,
         session: Optional[ClientSession] = ...,
     ) -> DeleteResult: ...
     def aggregate(
         self,
-        pipeline: List[Dict[str, Any]],
+        pipeline: Sequence[Mapping[str, Any]],
         session: Optional[ClientSession] = ...,
         allowDiskUse: bool = ...,
         maxTimeMS: int = ...,
         batchSize: int = ...,
         collation: Optional[Collation] = ...,
         useCursor: bool = ...,
-        hint: Optional[Dict[str, int]] = ...,
+        hint: Optional[Mapping[str, int]] = ...,
     ) -> CommandCursor: ...
     def aggregate_raw_batches(
         self,
-        pipeline: List[Dict[str, Any]],
+        pipeline: Sequence[Mapping[str, Any]],
         session: Optional[ClientSession] = ...,
         allowDiskUse: bool = ...,
         maxTimeMS: int = ...,
         batchSize: int = ...,
         collation: Optional[Collation] = ...,
         useCursor: bool = ...,
-        hint: Optional[Dict[str, int]] = ...,
+        hint: Optional[Mapping[str, int]] = ...,
     ) -> RawBatchCursor: ...
     def watch(
         self,
-        pipeline: Optional[List[Dict[str, Any]]] = ...,
+        pipeline: Optional[Sequence[Mapping[str, Any]]] = ...,
         full_document: Optional[Literal["updateLookup"]] = ...,
         resume_after: Optional[_ResumeToken] = ...,
         max_await_time_ms: Optional[int] = ...,
@@ -152,24 +152,24 @@ class Collection(BaseObject):
     ) -> CollectionChangeStream: ...
     def find(
         self,
-        filter: Optional[Dict[str, Any]] = ...,
-        projection: Optional[Dict[str, Any]] = ...,
+        filter: Optional[Mapping[str, Any]] = ...,
+        projection: Optional[Mapping[str, Any]] = ...,
         skip: int = ...,
         limit: int = ...,
         no_cursor_timeout: bool = ...,
         cursor_type: CursorType = ...,
-        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
+        sort: Sequence[Tuple[str, Union[int, Mapping[str, str]]]] = ...,
         allow_partial_results: bool = ...,
         oplog_replay: bool = ...,
-        modifiers: Dict[str, Any] = ...,
+        modifiers: Mapping[str, Any] = ...,
         batch_size: int = ...,
         manipulate: bool = ...,
         collation: Optional[Collation] = ...,
-        hint: Optional[Dict[str, int]] = ...,
+        hint: Optional[Mapping[str, int]] = ...,
         max_scan: Optional[int] = ...,
         max_time_ms: Optional[int] = ...,
-        max: Optional[List[Tuple[str, int]]] = ...,
-        min: Optional[List[Tuple[str, int]]] = ...,
+        max: Optional[Sequence[Tuple[str, int]]] = ...,
+        min: Optional[Sequence[Tuple[str, int]]] = ...,
         return_key: bool = ...,
         show_record_id: bool = ...,
         snapshot: bool = ...,
@@ -178,24 +178,24 @@ class Collection(BaseObject):
     ) -> Cursor: ...
     def find_raw_batches(
         self,
-        filter: Optional[Dict[str, Any]] = ...,
-        projection: Optional[Dict[str, Any]] = ...,
+        filter: Optional[Mapping[str, Any]] = ...,
+        projection: Optional[Mapping[str, Any]] = ...,
         skip: int = ...,
         limit: int = ...,
         no_cursor_timeout: bool = ...,
         cursor_type: CursorType = ...,
-        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
+        sort: Sequence[Tuple[str, Union[int, Mapping[str, str]]]] = ...,
         allow_partial_results: bool = ...,
         oplog_replay: bool = ...,
-        modifiers: Dict[str, Any] = ...,
+        modifiers: Mapping[str, Any] = ...,
         batch_size: int = ...,
         manipulate: bool = ...,
         collation: Optional[Collation] = ...,
-        hint: Optional[Dict[str, int]] = ...,
+        hint: Optional[Mapping[str, int]] = ...,
         max_scan: Optional[int] = ...,
         max_time_ms: Optional[int] = ...,
-        max: Optional[List[Tuple[str, int]]] = ...,
-        min: Optional[List[Tuple[str, int]]] = ...,
+        max: Optional[Sequence[Tuple[str, int]]] = ...,
+        min: Optional[Sequence[Tuple[str, int]]] = ...,
         return_key: bool = ...,
         show_record_id: bool = ...,
         snapshot: bool = ...,
@@ -203,24 +203,24 @@ class Collection(BaseObject):
     ) -> RawBatchCursor: ...
     def find_one(
         self,
-        filter: Optional[Dict[str, Any]],
-        projection: Optional[Dict[str, Any]] = ...,
+        filter: Optional[Mapping[str, Any]],
+        projection: Optional[Mapping[str, Any]] = ...,
         skip: int = ...,
         limit: int = ...,
         no_cursor_timeout: bool = ...,
         cursor_type: CursorType = ...,
-        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
+        sort: Sequence[Tuple[str, Union[int, Mapping[str, str]]]] = ...,
         allow_partial_results: bool = ...,
         oplog_replay: bool = ...,
-        modifiers: Dict[str, Any] = ...,
+        modifiers: Mapping[str, Any] = ...,
         batch_size: int = ...,
         manipulate: bool = ...,
         collation: Optional[Collation] = ...,
-        hint: Optional[Dict[str, int]] = ...,
+        hint: Optional[Mapping[str, int]] = ...,
         max_scan: Optional[int] = ...,
         max_time_ms: Optional[int] = ...,
-        max: Optional[List[Tuple[str, int]]] = ...,
-        min: Optional[List[Tuple[str, int]]] = ...,
+        max: Optional[Sequence[Tuple[str, int]]] = ...,
+        min: Optional[Sequence[Tuple[str, int]]] = ...,
         return_key: bool = ...,
         show_record_id: bool = ...,
         snapshot: bool = ...,
@@ -229,41 +229,41 @@ class Collection(BaseObject):
     ) -> Optional[Dict[str, Any]]: ...
     def find_one_and_delete(
         self,
-        filter: Optional[Dict[str, Any]],
-        replacement: Dict[str, Any],
-        projection: Optional[Dict[str, Any]] = ...,
-        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
-        hint: Optional[Dict[str, int]] = ...,
+        filter: Optional[Mapping[str, Any]],
+        replacement: Mapping[str, Any],
+        projection: Optional[Mapping[str, Any]] = ...,
+        sort: Sequence[Tuple[str, Union[int, Mapping[str, str]]]] = ...,
+        hint: Optional[Mapping[str, int]] = ...,
         session: Optional[ClientSession] = ...,
     ) -> Optional[Dict[str, Any]]: ...
     def find_one_and_replace(
         self,
-        filter: Optional[Dict[str, Any]],
-        projection: Optional[Dict[str, Any]] = ...,
-        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
+        filter: Optional[Mapping[str, Any]],
+        projection: Optional[Mapping[str, Any]] = ...,
+        sort: Sequence[Tuple[str, Union[int, Mapping[str, str]]]] = ...,
         return_document: ReturnDocument = ...,
-        hint: Optional[Dict[str, int]] = ...,
+        hint: Optional[Mapping[str, int]] = ...,
         session: Optional[ClientSession] = ...,
     ) -> Optional[Dict[str, Any]]: ...
     def find_one_and_update(
         self,
-        filter: Optional[Dict[str, Any]],
-        update: Dict[str, Any],
-        projection: Optional[Dict[str, Any]] = ...,
-        sort: List[Tuple[str, Union[int, Dict[str, str]]]] = ...,
+        filter: Optional[Mapping[str, Any]],
+        update: Mapping[str, Any],
+        projection: Optional[Mapping[str, Any]] = ...,
+        sort: Sequence[Tuple[str, Union[int, Mapping[str, str]]]] = ...,
         return_document: ReturnDocument = ...,
-        array_filters: Optional[List[Dict[str, Any]]] = ...,
-        hint: Optional[Dict[str, int]] = ...,
+        array_filters: Optional[Sequence[Mapping[str, Any]]] = ...,
+        hint: Optional[Mapping[str, int]] = ...,
         session: Optional[ClientSession] = ...,
     ) -> Optional[Dict[str, Any]]: ...
     def count_documents(
         self,
-        filter: Dict[str, Any],
+        filter: Mapping[str, Any],
         session: Optional[ClientSession] = ...,
         skip: int = ...,
         limit: int = ...,
         collation: Collation = ...,
-        hint: Union[str, List[Tuple[str, int]]] = ...,
+        hint: Union[str, Sequence[Tuple[str, int]]] = ...,
     ) -> int: ...
     def estimated_document_count(
         self,
@@ -272,14 +272,14 @@ class Collection(BaseObject):
     def distinct(
         self,
         key: str,
-        filter: Optional[Dict[str, Any]] = ...,
+        filter: Optional[Mapping[str, Any]] = ...,
         session: Optional[ClientSession] = ...,
         maxTimeMS: int = ...,
         collation: Collation = ...,
     ) -> List[Any]: ...
     def create_index(
         self,
-        keys: Union[str, List[Tuple[str, int]]],
+        keys: Union[str, Sequence[Tuple[str, int]]],
         name: Optional[str] = ...,
         unique: bool = ...,
         background: bool = ...,
@@ -288,19 +288,19 @@ class Collection(BaseObject):
         min: int = ...,
         max: int = ...,
         expireAfterSeconds: int = ...,
-        partialFilterExpression: Dict[str, Any] = ...,
+        partialFilterExpression: Mapping[str, Any] = ...,
         collation: Collation = ...,
-        wildcardProjection: Dict[str, Any] = ...,
+        wildcardProjection: Mapping[str, Any] = ...,
         hidden: bool = ...,
     ) -> List[str]: ...
     def create_indexes(
         self,
-        indexes: List[IndexModel],
+        indexes: Sequence[IndexModel],
         session: Optional[ClientSession] = ...,
     ) -> List[str]: ...
     def drop_index(
         self,
-        index_or_name: Union[str, List[str]],
+        index_or_name: Union[str, Sequence[str]],
         session: Optional[ClientSession] = ...,
     ) -> None: ...
     def drop_indexes(
@@ -318,7 +318,7 @@ class Collection(BaseObject):
     def index_information(
         self,
         session: Optional[ClientSession] = ...,
-    ) -> Dict[str, Any]: ...
+    ) -> Mapping[str, Any]: ...
     def drop(
         self,
         session: Optional[ClientSession] = ...,
@@ -332,12 +332,12 @@ class Collection(BaseObject):
     def options(
         self,
         session: Optional[ClientSession] = ...,
-    ) -> Dict[str, Any]: ...
+    ) -> Mapping[str, Any]: ...
     def map_reduce(
         self,
         map: str,
         reduce: str,
-        out: Union[str, Dict[str, Any]],
+        out: Union[str, Mapping[str, Any]],
         full_response: bool = ...,
         session: Optional[ClientSession] = ...,
         limit: int = ...,
@@ -369,13 +369,13 @@ class Collection(BaseObject):
     ) -> Any: ...
     def count(
         self,
-        filter: Dict[str, Any],
+        filter: Mapping[str, Any],
         session: Optional[ClientSession] = ...,
         skip: int = ...,
         limit: int = ...,
         maxTimeMS: int = ...,
         collation: Collation = ...,
-        hint: Union[str, List[Tuple[str, int]]] = ...,
+        hint: Union[str, Sequence[Tuple[str, int]]] = ...,
     ) -> int: ...
     def insert(
         self,
@@ -401,5 +401,5 @@ class Collection(BaseObject):
         self, spec_or_id: Optional[Any] = ..., multi: bool = ..., w: int = ...
     ) -> Any: ...
     def ensure_index(
-        self, key_or_list: Union[str, List[str]], cache_for: int = ...
+        self, key_or_list: Union[str, Sequence[str]], cache_for: int = ...
     ) -> Optional[str]: ...
