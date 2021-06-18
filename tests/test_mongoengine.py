@@ -7,7 +7,7 @@ from typing import Any, KeysView, Type, TypeVar, Union, cast
 
 import mongoengine
 import pymongo
-from bson import BSON, ObjectId
+from bson import BSON, SON, ObjectId
 from mongoengine import Document, EmbeddedDocument, QuerySet, fields
 from pymongo.collation import Collation, CollationStrength
 
@@ -242,6 +242,8 @@ def main() -> None:
         unique=True,
         partialFilterExpression={"_phone": {"$exists": True}},
     )
+
+    Post._get_collection().insert_many([SON({"foo": "bar"})])
 
     assert len(Post.objects()) > 0
     assert len(Post.objects) > 0
