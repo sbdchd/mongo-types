@@ -35,7 +35,7 @@ class ReturnDocument:
     AFTER: Literal[True] = True
 
 class _ResumeToken(TypedDict):
-    _data: bytes
+    _data: str
 
 class Collection(BaseObject):
     @property
