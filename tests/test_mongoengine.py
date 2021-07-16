@@ -375,6 +375,20 @@ def test_pymongo() -> None:
     bulk_write_result.inserted_count
     bulk_write_result.matched_count
 
+    # Example change stream event for mongo 4+:
+    # {
+    #     "_id": {
+    #         "_data": "8260F1A845000000012B022C0100296E5A1004FBCDBBF909B64D0C85340BB765450D5C463C5F6964003C724C5850355A35676E337745354A433857000004"
+    #     },
+    #     "operationType": "insert",
+    #     "clusterTime": Timestamp(1626449989, 1),
+    #     "fullDocument": {"_id": "some-id"},
+    #     "ns": {"db": "foo-database", "coll": "bar-collection"},
+    #     "documentKey": {"_id": "some-id"},
+    # }
+
+    pymongo.collection.Collection().watch(resume_after={"_data": "foo-bar"})
+
     try:
         print()
     except pymongo.errors.BulkWriteError as e:
