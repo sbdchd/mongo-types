@@ -155,6 +155,9 @@ def main() -> None:
     # reveal_type(posts)
     # Revealed type is 'builtins.list[test_mongoengine.Post*]
 
+    sliced_posts = Post.objects[0:2]
+    print(sliced_posts)
+
     posts_again = Post.objects().exclude("title").all_fields()
     print(posts_again)
 
