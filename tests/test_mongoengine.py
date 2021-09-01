@@ -235,6 +235,18 @@ def main() -> None:
     Post.objects().create(body="foo")
     Post.objects.create(body="foo")
 
+    pipeline: list[dict[str, str]] = []
+    Post.objects.aggregate(
+        *pipeline,
+        allowDiskUse=True,
+        collation={
+            "locale": "en_US",
+            "caseLevel": False,
+            "strength": 1,
+            "backwards": None,
+        },
+    )
+
     Post._get_collection().create_index(
         "name",
         name="name_unique_idx",
