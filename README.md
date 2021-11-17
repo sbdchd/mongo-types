@@ -198,7 +198,7 @@ class User(Document):
     meta = {
         "collection": "users",
     }
-    id = fields.StringField(name="_id", primary_key=True, default=default_id)
+    id = fields.StringField(db_field="_id", primary_key=True, default=default_id)
 
 # or if you prefer ObjectIds
 
@@ -206,7 +206,7 @@ class User(Document):
     meta = {
         "collection": "users",
     }
-    id = fields.ObjectIdField(name="_id", primary_key=True, default=ObjectId)
+    id = fields.ObjectIdField(db_field="_id", primary_key=True, default=ObjectId)
 ```
 
 ## dev
