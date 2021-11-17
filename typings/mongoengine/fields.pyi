@@ -1287,7 +1287,7 @@ class MapField(DictField[_T]):
 class ReferenceField(BaseField):
     def __init__(
         self,
-        model: str,
+        model: Union[str, Type[Document]],
         required: bool = ...,
         name: Optional[str] = ...,
         help_text: Optional[str] = ...,
