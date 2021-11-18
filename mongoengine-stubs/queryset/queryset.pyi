@@ -73,9 +73,8 @@ class QuerySet(Generic[_T]):
     _cursor: Cursor
 
     _query: Dict[str, Any]
-    
-    __class_getitem__: MethodType
 
+    __class_getitem__: MethodType
     def __init__(self, document: Type[_T], collection: Collection) -> None: ...
     def _clone_into(self, new_qs: _U) -> _U: ...
     def first(self) -> Optional[_T]: ...
