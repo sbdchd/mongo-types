@@ -23,7 +23,7 @@ class Document(BaseDocument):
 
     pk = StringField(required=True)
     @classmethod
-    def _get_collection(cls) -> Collection: ...
+    def _get_collection(cls) -> Collection[Any]: ...
     # NOTE(sbdchd): if we are willing to change all Document.objects.filter()
     # to Document.objects().filter() then we can define this method and we
     # won't need to provide the `objects = ObjectManager[T]()` in each mongo model.

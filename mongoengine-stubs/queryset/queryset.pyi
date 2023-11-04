@@ -16,7 +16,7 @@ from typing import (
     overload,
 )
 
-from bson import ObjectId
+from bson.objectid import ObjectId
 from mongoengine import Document
 from mongoengine.queryset.visitor import Q
 from pymongo.collation import Collation
@@ -68,14 +68,14 @@ _Collation = Union[Collation, Mapping[str, Union[bool, int, str, None]]]
 
 class QuerySet(Generic[_T]):
     _document: Type[_T]
-    _collection: Collection
+    _collection: Collection[Any]
 
-    _cursor: Cursor
+    _cursor: Cursor[Any]
 
     _query: Dict[str, Any]
 
     __class_getitem__: MethodType
-    def __init__(self, document: Type[_T], collection: Collection) -> None: ...
+    def __init__(self, document: Type[_T], collection: Collection[Any]) -> None: ...
     def _clone_into(self, new_qs: _U) -> _U: ...
     def first(self) -> Optional[_T]: ...
     def get(self, *q_objs: Q, **query: object) -> _T: ...
@@ -153,7 +153,7 @@ class QuerySet(Generic[_T]):
         collation: Optional[_Collation] = ...,
         useCursor: bool = ...,
         hint: Optional[Mapping[str, int]] = ...,
-    ) -> CommandCursor: ...
+    ) -> CommandCursor[Any]: ...
     def max_time_ms(self: _U, ms: Optional[int]) -> _U: ...
     def to_json(self) -> str: ...
     def from_json(self: _U, json_data: str) -> List[_U]: ...

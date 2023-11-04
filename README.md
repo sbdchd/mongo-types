@@ -1,7 +1,6 @@
 # mongo-types [![PyPI](https://img.shields.io/pypi/v/mongo-types.svg)](https://pypi.org/project/mongo-types/)
 
-Type stubs for [`mongoengine`][0] with some basic type stubs for [`pymongo`][1]
-and [`bson`][2].
+Type stubs for [`mongoengine`][0].
 
 Allows for autocomplete and static typing.
 
@@ -225,8 +224,6 @@ poetry publish --build
 ```
 
 [0]: https://github.com/MongoEngine/mongoengine
-[1]: https://github.com/mongodb/mongo-python-driver/tree/master/pymongo
-[2]: https://github.com/mongodb/mongo-python-driver/tree/master/bson
 
 ## related
 

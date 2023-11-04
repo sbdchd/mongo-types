@@ -4,10 +4,11 @@ import datetime
 import types
 from enum import Enum
 from typing import Any, KeysView, Type, TypeVar, Union, cast
+from bson.objectid import ObjectId
+from bson.son import SON
 
 import mongoengine
 import pymongo
-from bson import BSON, SON, ObjectId
 from mongoengine import Document, EmbeddedDocument, QuerySet, fields
 from pymongo.collation import Collation, CollationStrength
 
@@ -291,125 +292,3 @@ def test_choices() -> None:
 
     p = Post()
     assert p.role is None
-
-
-def test_bson() -> None:
-    doc = {"foo": "bar", "buzz": True}
-    data = BSON.encode(doc)
-    assert BSON.decode(data) == doc
-
-
-def test_pymongo() -> None:
-    pymongo.ALL
-    pymongo.ASCENDING
-    pymongo.CursorType
-    pymongo.DESCENDING
-    pymongo.DeleteMany
-    pymongo.DeleteOne
-    pymongo.GEO2D
-    pymongo.GEOHAYSTACK
-    pymongo.GEOSPHERE
-    pymongo.HASHED
-    pymongo.IndexModel
-    pymongo.InsertOne
-    pymongo.MAX_SUPPORTED_WIRE_VERSION
-    pymongo.MIN_SUPPORTED_WIRE_VERSION
-    pymongo.MongoClient
-    pymongo.MongoReplicaSetClient
-    pymongo.OFF
-    pymongo.ReadPreference
-    pymongo.ReplaceOne
-    pymongo.ReturnDocument
-    pymongo.SLOW_ONLY
-    pymongo.TEXT
-    pymongo.UpdateMany
-    pymongo.UpdateOne
-    pymongo.WriteConcern
-    pymongo.aggregation
-    pymongo.auth
-    pymongo.auth_aws
-    pymongo.bulk
-    pymongo.change_stream
-    pymongo.client_options
-    pymongo.client_session
-    pymongo.collation
-    pymongo.collection
-    pymongo.command_cursor
-    pymongo.common
-    pymongo.compression_support
-    pymongo.cursor
-    pymongo.cursor_manager
-    pymongo.database
-    pymongo.driver_info
-    pymongo.encryption_options
-    pymongo.errors
-    pymongo.get_version_string
-    pymongo.has_c
-    pymongo.helpers
-    pymongo.ismaster
-    pymongo.max_staleness_selectors
-    pymongo.message
-    pymongo.mongo_client
-    pymongo.mongo_replica_set_client
-    pymongo.monitor
-    pymongo.monitoring
-    pymongo.monotonic
-    pymongo.network
-    pymongo.operations
-    pymongo.periodic_executor
-    pymongo.pool
-    pymongo.read_concern
-    pymongo.read_preferences
-    pymongo.response
-    pymongo.results
-    pymongo.saslprep
-    pymongo.server
-    pymongo.server_description
-    pymongo.server_selectors
-    pymongo.server_type
-    pymongo.settings
-    pymongo.socket_checker
-    pymongo.son_manipulator
-    pymongo.srv_resolver
-    pymongo.ssl_context
-    pymongo.ssl_match_hostname
-    pymongo.ssl_support
-    pymongo.thread_util
-    pymongo.topology
-    pymongo.topology_description
-    pymongo.uri_parser
-    pymongo.version
-    pymongo.version_tuple
-    pymongo.write_concern
-
-    def get_write_result() -> pymongo.results.BulkWriteResult:
-        ...
-
-    bulk_write_result = get_write_result()
-    bulk_write_result.inserted_count
-    bulk_write_result.matched_count
-
-    # Example change stream event for mongo 4+:
-    # {
-    #     "_id": {
-    #         "_data": "8260F1A845000000012B022C0100296E5A1004FBCDBBF909B64D0C85340BB765450D5C463C5F6964003C724C5850355A35676E337745354A433857000004"
-    #     },
-    #     "operationType": "insert",
-    #     "clusterTime": Timestamp(1626449989, 1),
-    #     "fullDocument": {"_id": "some-id"},
-    #     "ns": {"db": "foo-database", "coll": "bar-collection"},
-    #     "documentKey": {"_id": "some-id"},
-    # }
-
-    pymongo.collection.Collection().watch(resume_after={"_data": "foo-bar"})
-
-    try:
-        print()
-    except pymongo.errors.BulkWriteError as e:
-        for error in e.details["writeErrors"]:
-            assert "errmsg" in error and "op" in error
-            print(error["errmsg"])
-            phone = error["op"]["u"]["$set"]["_phone"]
-            user_id = error["op"]["u"]["$set"]["_id"]
-            print(phone)
-            print(user_id)
