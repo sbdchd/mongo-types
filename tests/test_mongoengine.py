@@ -43,7 +43,6 @@ class QuerySetManager:
 
 
 class Recipe(Document):
-
     meta = {"collection": "recipes"}
 
     id = fields.ObjectIdField(primary_key=True, default=ObjectId)

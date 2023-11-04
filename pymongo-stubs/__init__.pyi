@@ -97,6 +97,7 @@ __all__ = [
     "GEOSPHERE",
     "HASHED",
     "TEXT",
+    "database",
     "get_version_string",
     "has_c",
     "MongoClient",

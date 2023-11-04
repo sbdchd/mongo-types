@@ -1,21 +1,22 @@
 #!/bin/bash
 
+PATH=".venv/bin:node_modules/.bin:$PATH"
+
 set -ex
 
 # format code
 if [[ $CI ]]; then
-    ./.venv/bin/black --check .
-    ./.venv/bin/isort --check-only
+    black --check .
+    isort --check .
 else
-    ./.venv/bin/black .
-    ./.venv/bin/isort -y
+    black .
+    isort .
 fi
 
-./node_modules/.bin/pyright .
+pyright .
 
 # type check code
-./.venv/bin/mypy tests
+mypy tests
 
 # lint
-./.venv/bin/flake8 tests
-
+flake8 tests
