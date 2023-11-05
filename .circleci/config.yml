@@ -8,9 +8,9 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - mongo-types-v1-{{ checksum "poetry.lock" }}-{{ checksum "yarn.lock" }}
+            - mongo-types-v1-{{ checksum "poetry.lock" }}
       - run:
-          name: install python dependencies
+          name: Install python dependencies
           command: |
             # Use our new PATH so we can call poetry from bash
             echo 'export PATH="$PATH":"$HOME"/.local/bin' >> $BASH_ENV
@@ -19,14 +19,16 @@ jobs:
             sudo python -m pip install -U poetry
             poetry install
       - run:
-          name: install node dependencies
+          name: Install pyright
           command: |
-            yarn install --frozen-lockfile --non-interactive
+            # Pyright is installed at first call (using pyright wrapper and nodeenv)
+            poetry run pyright --version
       - save_cache:
           paths:
             - ./.mypy_cache
+            - .venv
             - /root/.cache/
-          key: mongo-types-v1-{{ checksum "poetry.lock" }}-{{ checksum "yarn.lock" }}
+          key: mongo-types-v1-{{ checksum "poetry.lock" }}
       - run:
           name: lint
           command: ./s/lint

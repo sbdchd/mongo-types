@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PATH=".venv/bin:node_modules/.bin:$PATH"
+PATH=".venv/bin:$PATH"
 
 set -ex
 
