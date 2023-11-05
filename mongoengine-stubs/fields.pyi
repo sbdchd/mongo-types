@@ -21,8 +21,8 @@ from typing import (
     overload,
 )
 from uuid import UUID
-from bson.objectid import ObjectId
 
+from bson.objectid import ObjectId
 from mongoengine.base import BaseField, ComplexBaseField
 from mongoengine.document import Document
 from typing_extensions import Literal

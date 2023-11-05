@@ -4,11 +4,11 @@ import datetime
 import types
 from enum import Enum
 from typing import Any, KeysView, Type, TypeVar, Union, cast
-from bson.objectid import ObjectId
-from bson.son import SON
 
 import mongoengine
 import pymongo
+from bson.objectid import ObjectId
+from bson.son import SON
 from mongoengine import Document, EmbeddedDocument, QuerySet, fields
 from pymongo.collation import Collation, CollationStrength
 
