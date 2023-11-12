@@ -22,7 +22,7 @@ from typing import (
 )
 from uuid import UUID
 
-from bson import ObjectId
+from bson.objectid import ObjectId
 from mongoengine.base import BaseField, ComplexBaseField
 from mongoengine.document import Document
 from typing_extensions import Literal
@@ -1010,13 +1010,13 @@ class LazyReference(Generic[_T], BaseField):
     def __getitem__(self, arg: Any) -> LazyReference[_T]: ...
 
 class LazyReferenceField(BaseField):
-    def __init__(
-        self,
+    def __new__(
+        cls,
         name: Union[str, Type[Document]],
         unique: bool = ...,
         required: bool = ...,
         help_text: Optional[str] = ...,
-    ) -> None: ...
+    ) -> LazyReferenceField: ...
     def __getitem__(self, arg: Any) -> LazyReference[Any]: ...
 
 class URLField(Generic[_ST, _GT], StringField[_ST, _GT]):
@@ -1285,14 +1285,14 @@ class MapField(DictField[_T]):
 #     workflow = fields.ReferenceField[Dialog]("Dialog")
 
 class ReferenceField(BaseField):
-    def __init__(
-        self,
+    def __new__(
+        cls,
         model: Union[str, Type[Document]],
         required: bool = ...,
         name: Optional[str] = ...,
         help_text: Optional[str] = ...,
         blank: bool = ...,
-    ) -> None: ...
+    ) -> ReferenceField: ...
     def __getitem__(self, arg: Any) -> Any: ...
 
 _T_ENUM = TypeVar("_T_ENUM", bound=Enum)

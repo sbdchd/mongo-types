@@ -12,12 +12,14 @@ from typing import (
     Union,
 )
 
-from bson import SON
+from bson.son import SON
 
 U = TypeVar("U", bound="BaseDocument")
 
 class BaseDocument:
-    def to_mongo(self, use_db_field: bool = ..., fields: List[str] = ...) -> SON: ...
+    def to_mongo(
+        self, use_db_field: bool = ..., fields: List[str] = ...
+    ) -> SON[Any, Any]: ...
     def validate(self, clean: bool = ...) -> None: ...
     def to_json(self, *args: Any, **kwargs: Any) -> str: ...
     @classmethod
