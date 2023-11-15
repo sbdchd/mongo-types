@@ -848,14 +848,14 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
-        document_type: Type[_T],
+        document_type: Type[_T] | str,
         required: Literal[False] = ...,
         help_text: str = ...,
     ) -> EmbeddedDocumentField[Optional[_T], Optional[_T]]: ...
     @overload
     def __new__(
         cls,
-        document_type: Type[_T],
+        document_type: Type[_T] | str,
         required: Literal[False] = ...,
         *,
         default: Union[_T, Callable[[], _T]],
@@ -864,7 +864,7 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
-        document_type: Type[_T],
+        document_type: Type[_T] | str,
         *,
         required: Literal[True],
         help_text: str = ...,
@@ -872,7 +872,7 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
-        document_type: Type[_T],
+        document_type: Type[_T] | str,
         *,
         required: Literal[True],
         default: Union[_T, Callable[[], _T]],
