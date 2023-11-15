@@ -28,6 +28,7 @@ from mongoengine.document import Document
 from typing_extensions import Literal
 
 _T = TypeVar("_T")
+_F = TypeVar("_F", bound=BaseField)
 
 _ST = TypeVar("_ST")
 _GT = TypeVar("_GT")
@@ -889,36 +890,15 @@ class DynamicField(BaseField): ...
 
 class ListField(Generic[_T], ComplexBaseField):
     # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
-    @overload
     def __new__(
         cls,
-        field: StringField[Any, Any] = ...,
+        field: _F,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
         help_text: str = ...,
         null: bool = ...,
-    ) -> ListField[StringField[Any, Any]]: ...
-    @overload
-    def __new__(
-        cls,
-        field: DictField[Any],
-        required: bool = ...,
-        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
-        verbose_name: str = ...,
-        help_text: str = ...,
-        null: bool = ...,
-    ) -> ListField[DictField[Any]]: ...
-    @overload
-    def __new__(
-        cls,
-        field: Any,
-        required: bool = ...,
-        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
-        verbose_name: str = ...,
-        help_text: str = ...,
-        null: bool = ...,
-    ) -> ListField[Any]: ...
+    ) -> ListField[_F]: ...
     def __getitem__(self, arg: Any) -> _T: ...
     def __iter__(self) -> Iterator[_T]: ...
     @overload
