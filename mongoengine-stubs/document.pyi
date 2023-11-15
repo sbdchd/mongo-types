@@ -6,7 +6,7 @@ import mongoengine.errors as errors
 from mongoengine.base import BaseDocument
 from mongoengine.fields import StringField
 from pymongo.collection import Collection
-from typing_extensions import TypedDict
+from typing_extensions import Self, TypedDict
 
 _U = TypeVar("_U", bound="Document")
 
@@ -20,6 +20,7 @@ class Document(BaseDocument):
     meta: _MetaDict
     _meta: _UnderMetaDict
     _fields: Dict[str, Any]
+    _collection: Collection[Any] | None
 
     pk = StringField(required=True)
     @classmethod
@@ -66,7 +67,7 @@ class Document(BaseDocument):
 class EmbeddedDocument(BaseDocument):
     _fields: Dict[str, Any]
     _meta: _UnderMetaDict
-    def __new__(cls, *args: Any, **kwargs: Any) -> EmbeddedDocument: ...
+    def __new__(cls, *args: Any, **kwargs: Any) -> Self: ...
     def save(self) -> None: ...
     def __contains__(self, key: str) -> bool: ...
 
