@@ -1019,10 +1019,11 @@ class DictField(Generic[_T], ComplexBaseField):
 class EmbeddedDocumentListField(Generic[_T], BaseField):
     def __new__(
         cls,
-        kind: Type[_T],
+        document_type: Type[_T],
         required: bool = ...,
         default: Optional[Any] = ...,
-        help_text: str = ...,
+        help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EmbeddedDocumentListField[_T]: ...
     def __getitem__(self, arg: Any) -> _T: ...
     def __iter__(self) -> Iterator[_T]: ...
