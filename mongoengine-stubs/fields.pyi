@@ -1322,17 +1322,19 @@ class MapField(DictField[_T]):
 # if we monkey patch we can make this generic like:
 #     workflow = fields.ReferenceField[Dialog]("Dialog")
 
-class ReferenceField(BaseField):
+class ReferenceField(Generic[_ST, _GT], BaseField):
     def __new__(
         cls,
-        model: Union[str, Type[Document]],
+        model: Union[str, Type[_T]],
         required: bool = ...,
         name: Optional[str] = ...,
         help_text: Optional[str] = ...,
         blank: bool = ...,
         **kwargs: Any,
-    ) -> ReferenceField: ...
+    ) -> ReferenceField[_ST, _GT]: ...
     def __getitem__(self, arg: Any) -> Any: ...
+    def __set__(self, instance: Any, value: _ST) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _GT: ...
 
 _T_ENUM = TypeVar("_T_ENUM", bound=Enum)
 
