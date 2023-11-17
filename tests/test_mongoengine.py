@@ -11,6 +11,7 @@ from bson.objectid import ObjectId
 from bson.son import SON
 from mongoengine import Document, EmbeddedDocument, QuerySet, fields
 from pymongo.collation import Collation, CollationStrength
+from typing_extensions import assert_type
 
 mongoengine.connect("testdb")
 
@@ -269,7 +270,8 @@ def main() -> None:
 
     post = Post.objects().get()
     print(post._id)
-    post.attachments[-1]
+    attachment = post.attachments[-1]
+    assert_type(attachment, PostAttachment)
     list(post.attachments)
     print(post.main_attachment.name)
 
