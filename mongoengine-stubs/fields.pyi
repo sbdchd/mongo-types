@@ -28,6 +28,7 @@ from mongoengine.document import Document
 from typing_extensions import Literal
 
 _T = TypeVar("_T")
+_F = TypeVar("_F", bound=BaseField)
 
 _ST = TypeVar("_ST")
 _GT = TypeVar("_GT")
@@ -49,6 +50,7 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> ObjectIdField[Optional[ObjectId], Optional[ObjectId]]: ...
     # ObjectIdField(default=ObjectId)
     @overload
@@ -66,6 +68,7 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> ObjectIdField[Optional[ObjectId], ObjectId]: ...
     # ObjectIdField(required=True)
     @overload
@@ -83,6 +86,7 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> ObjectIdField[ObjectId, ObjectId]: ...
     # ObjectIdField(required=True, default=ObjectId)
     @overload
@@ -100,6 +104,7 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> ObjectIdField[Optional[ObjectId], ObjectId]: ...
     # ObjectIdField(primiary_key=True)
     @overload
@@ -117,6 +122,7 @@ class ObjectIdField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> ObjectIdField[ObjectId, ObjectId]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -141,6 +147,7 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> StringField[Optional[str], Optional[str]]: ...
     # StringField(default="foo")
     @overload
@@ -161,6 +168,7 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> StringField[Optional[str], str]: ...
     # StringField(required=True)
     @overload
@@ -181,6 +189,7 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> StringField[str, str]: ...
     # StringField(required=True, default="foo")
     @overload
@@ -201,6 +210,7 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> StringField[Optional[str], str]: ...
     # StringField(primary_key=True)
     @overload
@@ -221,6 +231,7 @@ class StringField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> StringField[str, str]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -247,6 +258,7 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EmailField[Optional[str], Optional[str]]: ...
     @overload
     def __new__(
@@ -269,6 +281,7 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EmailField[Optional[str], str]: ...
     @overload
     def __new__(
@@ -291,6 +304,7 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EmailField[str, str]: ...
     @overload
     def __new__(
@@ -313,6 +327,7 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EmailField[Optional[str], str]: ...
     @overload
     def __new__(
@@ -335,6 +350,7 @@ class EmailField(StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EmailField[str, str]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -357,6 +373,7 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> IntField[Optional[int], Optional[int]]: ...
     @overload
     def __new__(
@@ -375,6 +392,7 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> IntField[Optional[int], int]: ...
     @overload
     def __new__(
@@ -393,6 +411,7 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> IntField[int, int]: ...
     @overload
     def __new__(
@@ -411,6 +430,7 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> IntField[Optional[int], int]: ...
     @overload
     def __new__(
@@ -429,6 +449,7 @@ class IntField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> IntField[int, int]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -451,6 +472,7 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> FloatField[Optional[float], Optional[float]]: ...
     @overload
     def __new__(
@@ -469,6 +491,7 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> FloatField[Optional[float], float]: ...
     @overload
     def __new__(
@@ -487,6 +510,7 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> FloatField[float, float]: ...
     @overload
     def __new__(
@@ -505,6 +529,7 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> FloatField[Optional[float], float]: ...
     @overload
     def __new__(
@@ -523,6 +548,7 @@ class FloatField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> FloatField[float, float]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -548,6 +574,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DecimalField[Optional[Decimal], Optional[Decimal]]: ...
     @overload
     def __new__(
@@ -569,6 +596,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DecimalField[Optional[Decimal], Decimal]: ...
     @overload
     def __new__(
@@ -590,6 +618,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DecimalField[Decimal, Decimal]: ...
     @overload
     def __new__(
@@ -611,6 +640,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DecimalField[Optional[Decimal], Decimal]: ...
     @overload
     def __new__(
@@ -632,6 +662,7 @@ class DecimalField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DecimalField[Decimal, Decimal]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -652,6 +683,7 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> BooleanField[Optional[bool], Optional[bool]]: ...
     @overload
     def __new__(
@@ -668,6 +700,7 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> BooleanField[Optional[bool], bool]: ...
     @overload
     def __new__(
@@ -684,6 +717,7 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> BooleanField[bool, bool]: ...
     @overload
     def __new__(
@@ -700,6 +734,7 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> BooleanField[Optional[bool], bool]: ...
     @overload
     def __new__(
@@ -716,6 +751,7 @@ class BooleanField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> BooleanField[bool, bool]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -736,6 +772,7 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DateTimeField[Optional[datetime], Optional[datetime]]: ...
     @overload
     def __new__(
@@ -752,6 +789,7 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DateTimeField[Optional[datetime], datetime]: ...
     @overload
     def __new__(
@@ -768,6 +806,7 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DateTimeField[datetime, datetime]: ...
     @overload
     def __new__(
@@ -784,6 +823,7 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DateTimeField[Optional[datetime], datetime]: ...
     @overload
     def __new__(
@@ -800,6 +840,7 @@ class DateTimeField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> DateTimeField[datetime, datetime]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -808,14 +849,14 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
-        document_type: Type[_T],
+        document_type: Type[_T] | str,
         required: Literal[False] = ...,
         help_text: str = ...,
     ) -> EmbeddedDocumentField[Optional[_T], Optional[_T]]: ...
     @overload
     def __new__(
         cls,
-        document_type: Type[_T],
+        document_type: Type[_T] | str,
         required: Literal[False] = ...,
         *,
         default: Union[_T, Callable[[], _T]],
@@ -824,7 +865,7 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
-        document_type: Type[_T],
+        document_type: Type[_T] | str,
         *,
         required: Literal[True],
         help_text: str = ...,
@@ -832,7 +873,7 @@ class EmbeddedDocumentField(Generic[_ST, _GT], BaseField):
     @overload
     def __new__(
         cls,
-        document_type: Type[_T],
+        document_type: Type[_T] | str,
         *,
         required: Literal[True],
         default: Union[_T, Callable[[], _T]],
@@ -849,6 +890,9 @@ class DynamicField(BaseField): ...
 
 class ListField(Generic[_T], ComplexBaseField):
     # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
+    # and probably this:
+    #  * https://github.com/python/typing/issues/548
+    # With Higher-Kinded TypeVars this could be simplfied, but it's not there yet.
     @overload
     def __new__(
         cls,
@@ -922,9 +966,10 @@ class DictField(Generic[_T], ComplexBaseField):
         choices: Optional[Iterable[Dict[str, str]]] = ...,
         verbose_name: Optional[str] = ...,
         db_field: str = ...,
+        **kwargs: Any,
     ) -> DictField[StringField[Any, Any]]: ...
     @overload
-    def __new__(  # type: ignore [misc]
+    def __new__(  # type: ignore [overload-overlap]
         cls,
         field: _T = ...,
         required: bool = ...,
@@ -939,6 +984,7 @@ class DictField(Generic[_T], ComplexBaseField):
         choices: Optional[Iterable[Dict[str, List[str]]]] = ...,
         verbose_name: Optional[str] = ...,
         db_field: str = ...,
+        **kwargs: Any,
     ) -> DictField[ListField[StringField[Any, Any]]]: ...
     @overload
     def __new__(
@@ -954,6 +1000,7 @@ class DictField(Generic[_T], ComplexBaseField):
         choices: Optional[Iterable[Dict[str, Any]]] = ...,
         verbose_name: Optional[str] = ...,
         db_field: str = ...,
+        **kwargs: Any,
     ) -> DictField[_T]: ...
     # TODO(sbdchd): use overloads to ensure we can only use nulls when
     # null=True is passed in
@@ -996,10 +1043,11 @@ class DictField(Generic[_T], ComplexBaseField):
 class EmbeddedDocumentListField(Generic[_T], BaseField):
     def __new__(
         cls,
-        kind: Type[_T],
+        document_type: Type[_T],
         required: bool = ...,
         default: Optional[Any] = ...,
-        help_text: str = ...,
+        help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EmbeddedDocumentListField[_T]: ...
     def __getitem__(self, arg: Any) -> _T: ...
     def __iter__(self) -> Iterator[_T]: ...
@@ -1016,6 +1064,7 @@ class LazyReferenceField(BaseField):
         unique: bool = ...,
         required: bool = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> LazyReferenceField: ...
     def __getitem__(self, arg: Any) -> LazyReference[Any]: ...
 
@@ -1042,6 +1091,7 @@ class URLField(Generic[_ST, _GT], StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> URLField[Optional[str], Optional[str]]: ...
     # URLField(default="foo")
     @overload
@@ -1065,6 +1115,7 @@ class URLField(Generic[_ST, _GT], StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> URLField[Optional[str], str]: ...
     # URLField(required=True)
     @overload
@@ -1088,6 +1139,7 @@ class URLField(Generic[_ST, _GT], StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> URLField[str, str]: ...
     # URLField(required=True, default="foo")
     @overload
@@ -1111,6 +1163,7 @@ class URLField(Generic[_ST, _GT], StringField[_ST, _GT]):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> URLField[Optional[str], str]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -1132,6 +1185,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> UUIDField[Optional[UUID], Optional[UUID]]: ...
     @overload
     def __new__(
@@ -1149,6 +1203,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> UUIDField[Optional[UUID], UUID]: ...
     @overload
     def __new__(
@@ -1166,6 +1221,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> UUIDField[UUID, UUID]: ...
     @overload
     def __new__(
@@ -1183,6 +1239,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> UUIDField[Optional[UUID], UUID]: ...
     @overload
     def __new__(
@@ -1200,6 +1257,7 @@ class UUIDField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> UUIDField[UUID, UUID]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -1222,6 +1280,7 @@ class GeoPointField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> GeoPointField[_Tuple2Like | None, list[float] | None]: ...
     @overload
     def __new__(
@@ -1238,6 +1297,7 @@ class GeoPointField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> GeoPointField[_Tuple2Like | None, list[float]]: ...
     @overload
     def __new__(
@@ -1254,6 +1314,7 @@ class GeoPointField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> GeoPointField[_Tuple2Like, list[float]]: ...
     @overload
     def __new__(
@@ -1270,6 +1331,7 @@ class GeoPointField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> GeoPointField[_Tuple2Like | None, list[float]]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...
@@ -1279,21 +1341,30 @@ _MapType = Dict[str, Any]
 class MapField(DictField[_T]):
     pass
 
-# TODO(sbdchd): we can make this generic if we want better typing for assignment
-#     workflow = fields.ReferenceField("Dialog")
-# if we monkey patch we can make this generic like:
-#     workflow = fields.ReferenceField[Dialog]("Dialog")
-
-class ReferenceField(BaseField):
+class ReferenceField(Generic[_T], BaseField):
+    @overload
     def __new__(
         cls,
-        model: Union[str, Type[Document]],
-        required: bool = ...,
+        document_type: Union[str, Type[_T]],
+        required: Literal[True],
         name: Optional[str] = ...,
         help_text: Optional[str] = ...,
         blank: bool = ...,
-    ) -> ReferenceField: ...
+        **kwargs: Any,
+    ) -> ReferenceField[_T]: ...
+    @overload
+    def __new__(
+        cls,
+        document_type: Union[str, Type[_T]],
+        required: Literal[False] = ...,
+        name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+        blank: bool = ...,
+        **kwargs: Any,
+    ) -> ReferenceField[Optional[_T]]: ...
     def __getitem__(self, arg: Any) -> Any: ...
+    def __set__(self, instance: Any, value: _T) -> None: ...
+    def __get__(self, instance: Any, owner: Any) -> _T: ...
 
 _T_ENUM = TypeVar("_T_ENUM", bound=Enum)
 
@@ -1315,6 +1386,7 @@ class EnumField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EnumField[Optional[_T_ENUM], Optional[_T_ENUM]]: ...
     # EnumField(Foo, default=Foo.Bar)
     @overload
@@ -1333,6 +1405,7 @@ class EnumField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EnumField[Optional[_T_ENUM], _T_ENUM]: ...
     # EnumField(Foo, required=True)
     @overload
@@ -1351,6 +1424,7 @@ class EnumField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EnumField[_T_ENUM, _T_ENUM]: ...
     # EnumField(Foo, required=True, default=Foo.Bar)
     @overload
@@ -1369,6 +1443,7 @@ class EnumField(Generic[_ST, _GT], BaseField):
         null: bool = ...,
         verbose_name: Optional[str] = ...,
         help_text: Optional[str] = ...,
+        **kwargs: Any,
     ) -> EnumField[Optional[_T_ENUM], _T_ENUM]: ...
     def __set__(self, instance: Any, value: _ST) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _GT: ...

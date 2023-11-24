@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 import types
 from enum import Enum
-from typing import Any, KeysView, Type, TypeVar, Union, cast
+from typing import Any, Dict, KeysView, List, Type, TypeVar, Union, cast
 
 import mongoengine
 import pymongo
@@ -11,6 +11,7 @@ from bson.objectid import ObjectId
 from bson.son import SON
 from mongoengine import Document, EmbeddedDocument, QuerySet, fields
 from pymongo.collation import Collation, CollationStrength
+from typing_extensions import assert_type
 
 mongoengine.connect("testdb")
 
@@ -88,6 +89,9 @@ class Post(Document):
         default=[],
         help_text="some sort of errors",
     )
+    string_list = fields.ListField(field=fields.StringField())
+    reference_list = fields.ListField(field=fields.ReferenceField(PostAttachment))
+    embedded_list = fields.ListField(field=fields.EmbeddedDocumentField(PostAttachment))
     results = fields.DictField()
 
     attachments = fields.EmbeddedDocumentListField(
@@ -96,6 +100,7 @@ class Post(Document):
     main_attachment = fields.EmbeddedDocumentField(
         PostAttachment, required=True, help_text="random attachments"
     )
+    related_attachment = fields.ReferenceField(PostAttachment, required=True)
     tags = fields.MapField(
         required=False,
         field=fields.StringField(required=True),
@@ -268,10 +273,13 @@ def main() -> None:
     assert len(Post.objects) > 0
 
     post = Post.objects().get()
-    print(post._id)
-    post.attachments[-1]
-    list(post.attachments)
-    print(post.main_attachment.name)
+    assert_type(post._id, str)
+    assert_type(post.attachments, List[PostAttachment])
+    assert_type(post.main_attachment, PostAttachment)
+    assert_type(post.related_attachment, PostAttachment)
+    # Next two assertions works only in pyright, to pass the tests we're adding type-ignore.
+    assert_type(post.string_list, List[str])  # type: ignore [assert-type]
+    assert_type(post.errors, List[Dict[str, Any]])  # type: ignore [assert-type]
 
     x: Post = Post().save()
     print(x)
