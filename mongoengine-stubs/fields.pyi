@@ -1345,7 +1345,7 @@ class ReferenceField(Generic[_T], BaseField):
     @overload
     def __new__(
         cls,
-        model: Union[str, Type[_T]],
+        document_type: Union[str, Type[_T]],
         required: Literal[True],
         name: Optional[str] = ...,
         help_text: Optional[str] = ...,
@@ -1355,7 +1355,7 @@ class ReferenceField(Generic[_T], BaseField):
     @overload
     def __new__(
         cls,
-        model: Union[str, Type[_T]],
+        document_type: Union[str, Type[_T]],
         required: Literal[False] = ...,
         name: Optional[str] = ...,
         help_text: Optional[str] = ...,
