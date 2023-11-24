@@ -1317,21 +1317,27 @@ _MapType = Dict[str, Any]
 class MapField(DictField[_T]):
     pass
 
-# TODO(sbdchd): we can make this generic if we want better typing for assignment
-#     workflow = fields.ReferenceField("Dialog")
-# if we monkey patch we can make this generic like:
-#     workflow = fields.ReferenceField[Dialog]("Dialog")
-
 class ReferenceField(Generic[_T], BaseField):
+    @overload
     def __new__(
         cls,
         model: Union[str, Type[_T]],
-        required: bool = ...,
+        required: Literal[True] = ...,
         name: Optional[str] = ...,
         help_text: Optional[str] = ...,
         blank: bool = ...,
         **kwargs: Any,
     ) -> ReferenceField[_T]: ...
+    @overload
+    def __new__(
+        cls,
+        model: Union[str, Type[_T]],
+        required: Literal[False] = ...,
+        name: Optional[str] = ...,
+        help_text: Optional[str] = ...,
+        blank: bool = ...,
+        **kwargs: Any,
+    ) -> ReferenceField[Optional[_T]]: ...
     def __getitem__(self, arg: Any) -> Any: ...
     def __set__(self, instance: Any, value: _T) -> None: ...
     def __get__(self, instance: Any, owner: Any) -> _T: ...
