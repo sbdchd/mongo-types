@@ -890,15 +890,39 @@ class DynamicField(BaseField): ...
 
 class ListField(Generic[_T], ComplexBaseField):
     # see: https://github.com/python/mypy/issues/4236#issuecomment-521628880
+    # and probably this:
+    #  * https://github.com/python/typing/issues/548
+    # With Higher-Kinded TypeVars this could be simplfied, but it's not there yet.
+    @overload
     def __new__(
         cls,
-        field: _F,
+        field: StringField[Any, Any] = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
         help_text: str = ...,
         null: bool = ...,
-    ) -> ListField[_F]: ...
+    ) -> ListField[StringField[Any, Any]]: ...
+    @overload
+    def __new__(
+        cls,
+        field: DictField[Any],
+        required: bool = ...,
+        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
+        verbose_name: str = ...,
+        help_text: str = ...,
+        null: bool = ...,
+    ) -> ListField[DictField[Any]]: ...
+    @overload
+    def __new__(
+        cls,
+        field: Any,
+        required: bool = ...,
+        default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
+        verbose_name: str = ...,
+        help_text: str = ...,
+        null: bool = ...,
+    ) -> ListField[Any]: ...
     def __getitem__(self, arg: Any) -> _T: ...
     def __iter__(self) -> Iterator[_T]: ...
     @overload

@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 import types
 from enum import Enum
-from typing import Any, KeysView, List, Type, TypeVar, Union, cast
+from typing import Any, Dict, KeysView, List, Type, TypeVar, Union, cast
 
 import mongoengine
 import pymongo
@@ -89,6 +89,9 @@ class Post(Document):
         default=[],
         help_text="some sort of errors",
     )
+    string_list = fields.ListField(field=fields.StringField())
+    reference_list = fields.ListField(field=fields.ReferenceField(PostAttachment))
+    embedded_list = fields.ListField(field=fields.EmbeddedDocumentField(PostAttachment))
     results = fields.DictField()
 
     attachments = fields.EmbeddedDocumentListField(
@@ -274,6 +277,9 @@ def main() -> None:
     assert_type(post.attachments, List[PostAttachment])
     assert_type(post.main_attachment, PostAttachment)
     assert_type(post.related_attachment, PostAttachment)
+    # Next two assertions works only in pyright, to pass the tests we're adding type-ignore.
+    assert_type(post.string_list, List[str])  # type: ignore [assert-type]
+    assert_type(post.errors, List[Dict[str, Any]])  # type: ignore [assert-type]
 
     x: Post = Post().save()
     print(x)
