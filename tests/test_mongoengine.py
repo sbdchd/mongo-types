@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 import types
 from enum import Enum
-from typing import Any, KeysView, Type, TypeVar, Union, cast
+from typing import Any, KeysView, List, Type, TypeVar, Union, cast
 
 import mongoengine
 import pymongo
@@ -97,6 +97,7 @@ class Post(Document):
     main_attachment = fields.EmbeddedDocumentField(
         PostAttachment, required=True, help_text="random attachments"
     )
+    related_attachment = fields.ReferenceField(PostAttachment, required=True)
     tags = fields.MapField(
         required=False,
         field=fields.StringField(required=True),
@@ -269,11 +270,10 @@ def main() -> None:
     assert len(Post.objects) > 0
 
     post = Post.objects().get()
-    print(post._id)
-    attachment = post.attachments[-1]
-    assert_type(attachment, PostAttachment)
-    list(post.attachments)
-    print(post.main_attachment.name)
+    assert_type(post._id, str)
+    assert_type(post.attachments, List[PostAttachment])
+    assert_type(post.main_attachment, PostAttachment)
+    assert_type(post.related_attachment, PostAttachment)
 
     x: Post = Post().save()
     print(x)
