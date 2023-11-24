@@ -945,7 +945,7 @@ class DictField(Generic[_T], ComplexBaseField):
         **kwargs: Any,
     ) -> DictField[StringField[Any, Any]]: ...
     @overload
-    def __new__(  # type: ignore [misc]
+    def __new__(  # type: ignore [overload-overlap]
         cls,
         field: _T = ...,
         required: bool = ...,
@@ -1322,7 +1322,7 @@ class ReferenceField(Generic[_T], BaseField):
     def __new__(
         cls,
         model: Union[str, Type[_T]],
-        required: Literal[True] = ...,
+        required: Literal[True],
         name: Optional[str] = ...,
         help_text: Optional[str] = ...,
         blank: bool = ...,
