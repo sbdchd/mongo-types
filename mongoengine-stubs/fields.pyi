@@ -897,6 +897,7 @@ class ListField(Generic[_T], ComplexBaseField):
     def __new__(
         cls,
         field: StringField[Any, Any] = ...,
+        db_field: str = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
@@ -907,6 +908,7 @@ class ListField(Generic[_T], ComplexBaseField):
     def __new__(
         cls,
         field: DictField[Any],
+        db_field: str = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
@@ -917,6 +919,7 @@ class ListField(Generic[_T], ComplexBaseField):
     def __new__(
         cls,
         field: Any,
+        db_field: str = ...,
         required: bool = ...,
         default: Optional[Union[List[Any], Callable[[], List[Any]]]] = ...,
         verbose_name: str = ...,
